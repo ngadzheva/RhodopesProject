@@ -1,0 +1,17 @@
+.color{
+    color: #AF9453;
+}
+
+.color:hover {
+    color: rgba(175, 147, 83, 0.685);
+}
+
+.navbar-brand {
+    font-size: 1em;
+    text-transform: uppercase;
+    color: #AF9453;
+}
+
+#logo {
+    width: 20%;
+}
