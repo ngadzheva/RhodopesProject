@@ -1,0 +1,100 @@
+<div class="content">
+    <div *ngIf="commentsOpened" id="commentsOverlay" class="row comments">
+        <div (click)="closeComments()" class="closebtn" title="Затвори коментарите">x</div>
+        <div id="commentContent" class="row commentsContent">
+            <div class="row" >
+                <textarea [(ngModel)]="comment" id="writeComment" rows="10" cols="30" placeholder="Напиши мнение..."></textarea>
+            </div>
+            
+            <div (click)="postComment()" class="row" id="post">Публикувай</div>
+
+            <div class="row" id="userCommentsList">
+                <div *ngFor="let comment of comments" class="userComments">
+                    <h4>{{comment.user}} <time>{{comment.datePublished | date}}</time></h4>
+                    <p>{{comment.content}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  <div class="row">
+    <div class="col-md-5 bg-light">
+      <div class="row">
+          <div class="col-md-2 bg-dark">
+              <div id="btn-container" class="align-middle">
+                  <div class="btn-group">
+                      <button *ngIf="!like" (click)="vote('like')" type="button" title="Рейтинг" class="btn mdc-icon-button material-icons star">star_border</button>
+                      <button *ngIf="like" (click)="vote('dislike')" type="button" title="Рейтинг" class="btn mdc-icon-button material-icons star">star</button>
+                  </div>
+                  <div class="btn-group">
+                      <button *ngIf="!favorite" (click)="addLandscape(landscapeInfo.name, 'favorite')" type="button" title="Любими" class="btn mdc-icon-button material-icons notFav">favorite_border</button>
+                      <button *ngIf="favorite" (click)="addLandscape('landscapeInfo.name, favorite')" type="button" title="Любими" class="btn mdc-icon-button material-icons notFav">favorite</button>
+                    </div>
+                  <div class="btn-group">
+                      <button *ngIf="!wantToVisit" (click)="addLandscape(landscapeInfo.name, 'wantToVisit')" type="button" title="Добави" class="btn mdc-icon-button material-icons add">add_location</button>
+                      <button *ngIf="wantToVisit" (click)="addLandscape(landscapeInfo.name, 'wantToVisit')" type="button" title="Добави" class="btn mdc-icon-button material-icons remove">add_location</button>
+                  </div>
+                  <div class="btn-group">
+                      <button *ngIf="!visited" (click)="addLandscape(landscapeInfo.name, 'visited')" type="button" title="Посетено" class="btn mdc-icon-button material-icons visited">place</button>
+                      <button *ngIf="visited" (click)="addLandscape(landscapeInfo.name, 'visited')" type="button" title="Посетено" class="btn mdc-icon-button material-icons remove">place</button>
+                  </div>
+                  <div class="btn-group">
+                    <button (click)="viewGallery()" type="button" title="Галерия" class="btn mdc-icon-button material-icons image">image</button>
+                  </div>
+                  <div class="btn-group">
+                      <button (click)="openComments()" type="button" title="Коментари" class="btn mdc-icon-button material-icons comment">mode_comment</button>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-10">
+              <h3>{{ landscapeInfo.name }}</h3>
+    
+              <ul>
+                <li><span>Рейтинг: </span>{{ landscapeInfo.rating }} </li>
+                <li *ngIf="landscapeInfo.location"><span>Къде? </span>{{ landscapeInfo.location }} </li>
+                <li *ngIf="landscapeInfo.workTime"><span>Работно време:</span> {{ landscapeInfo.workTime }} </li>
+                <li *ngIf="landscapeInfo.entranceFee"><span>Входна такса:</span> {{ landscapeInfo.entranceFee }} </li>
+                <li *ngIf="landscapeInfo.transitionTime"><span>Необходимо време:</span> {{ landscapeInfo.transitionTime }} </li>
+              </ul>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <img src="{{ landscapeInfo.image }}" class="img-fluid"/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12"> {{ landscapeInfo.description }} </div>
+  </div>
+  <div id="map" class="row">
+      <agm-map [latitude]="landscapeInfo.latitude" [longitude]="landscapeInfo.longitude">
+          <agm-marker [latitude]="landscapeInfo.latitude" [longitude]="landscapeInfo.longitude"></agm-marker>
+      </agm-map>
+  </div>
+  <div class="row" *ngIf="landscapeInfo.hotels">
+    <div class="table-responsive table-hover">          
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Хотел</th>
+                    <th>Цена на нощувка</th>
+                    <th>Стаи</th>
+                    <th>Населено място</th>
+                    <th>Отдалеченост</th>
+                    <th>Страница</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let hotel of landscapeInfo.hotels">
+                    <td>{{hotel.name}}</td>
+                    <td>{{hotel.price}}</td>
+                    <td>{{hotel.rooms}}</td>
+                    <td>{{hotel.location}}</td>
+                    <td>{{hotel.distance}}</td>
+                    <td><a href="{{hotel.webSite}}">{{hotel.name}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+</div>

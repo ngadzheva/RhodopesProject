@@ -1,33 +1,36 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
+import { user } from '../router/login';
 
 const _secret = 'secret';
 
 export function auth(request: any, response: express.Response, next: express.NextFunction) {
-    var token = request.body.token || request.headers['x-access-token'];
+  // var token = request.headers['authorization']; //request.cookies.accessToken;
 
-  // decode token
-  if (token) {
+  // if (token) {
+  //   jwt.verify(token, _secret, (err: Error, decoded: any) => {       
+  //     if (err) {
+  //       response.clearCookie('accessToken');
+  //       return response.status(401).send({ success: false, message: 'Вашата сесия е изтекла.' });       
+  //     } else {
+  //       request.decoded = decoded;         
+  //       next();
+  //     }
+  //   });
+  // } else {
+  //   return response.status(401).send({ 
+  //       success: false, 
+  //       message: 'Вашата сесия е изтекла.' 
+  //   });
+  // }
 
-    // verifies secret and checks exp
-    jwt.verify(token, _secret, function(err: Error, decoded: any) {       
-        if (err) {
-            return response.json({ success: false, message: 'Failed to authenticate token.' });       
-        } else {
-        // if everything is good, save to request for use in other routes
-        request.decoded = decoded;         
-        next();
-      }
-    });
-
+  if(user) {
+    next();
   } else {
-
-    // if there is no token
-    // return an error
-    return response.status(403).send({ 
-        success: false, 
-        message: 'No token provided.' 
-    });
+    return response.send({ 
+            success: false, 
+            message: 'Вашата сесия е изтекла.' 
+        });
   }
 }
   

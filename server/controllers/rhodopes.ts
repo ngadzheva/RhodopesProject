@@ -1,6 +1,4 @@
-import { Landmark } from '../models/landmark';
 import { Rhodopes } from '../models/rhodopes';
-import { Comments } from '../models/comments';
 
 export class RhodopesController {
     private _landscape: Rhodopes;

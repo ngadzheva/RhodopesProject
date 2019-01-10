@@ -3,5 +3,6 @@ export enum Collections {
     landscapes,
     comments,
     trips,
-    hotels
+    hotels,
+    gallery
 }

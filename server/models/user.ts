@@ -1,5 +1,4 @@
 import { Base } from './base';
-import { IUser } from '../interfaces/user';
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 import { database } from '../db/database';
@@ -7,6 +6,7 @@ import { database } from '../db/database';
 export class User extends Base {
     private _email: string;
     private _favorite: string[];
+    private _image: any;
     private _password: string;
     private _userName: string;
     private _visited: string[];
@@ -20,6 +20,7 @@ export class User extends Base {
 
         this._email = '';
         this._favorite = [];
+        this._image = undefined;
         this._visited = [];
         this._wantToVisit = [];
 
@@ -30,11 +31,12 @@ export class User extends Base {
         database.queryData(Collections[Collections.users], Fields[Fields.userName], '==', this._userName)
             .onSnapshot((querySnapshot: any) => {
                 querySnapshot.forEach((doc: any) => {
-                    this.setID(doc.id);
+                    this.setID = doc.id;
                     this._userName = doc.data().userName;
                     this._password = doc.data().password;
                     this._email = doc.data().email;
                     this._favorite = doc.data().favorite;
+                    this._image = doc.data().image;
                     this._visited = doc.data().visited;
                     this._wantToVisit = doc.data().wantToVisit;
                 });
@@ -51,7 +53,16 @@ export class User extends Base {
             wantToVisit: []
         }
 
-        database.insertData(Collections[Collections.landscapes], newUser);
+        database.insertData(Collections[Collections.users], newUser);
+    }
+
+    public updateInfo(userName: string, email: string, password: string): void {
+        database.updateData(Collections[Collections.users], Fields[Fields.userName], 
+            '==', this._userName, { userName, email, password });
+
+        this._userName = userName;
+        this._email = email;
+        this._password = password;
     }
 
     get getEmail() {
@@ -61,7 +72,7 @@ export class User extends Base {
     set setEmail(email: string) {
         this._email = email;
 
-        database.updateData(Collections[Collections.landscapes], Fields[Fields.userName], 
+        database.updateData(Collections[Collections.users], Fields[Fields.userName], 
             '==', this._userName, { email: this._email });
     }
 
@@ -72,8 +83,20 @@ export class User extends Base {
     set setFavorite(favorite: string[]) {
         this._favorite = favorite;
 
-        database.updateData(Collections[Collections.landscapes], Fields[Fields.userName], 
-            '==', this._userName, { favorite: this._favorite });
+        this.updateLandscapesList(Fields[Fields.favorite], this._favorite);
+    }
+
+    get getImage() {
+        return this._image;
+    }
+
+    setImage(path: string) {
+        database.uploadImage(path).then((data: any) => {
+            this._image = data;
+
+            database.updateData(Collections[Collections.users], Fields[Fields.userName], 
+                '==', this._userName, { image: this._image });
+        });
     }
 
     get getPassword() {
@@ -83,7 +106,7 @@ export class User extends Base {
     set setPassword(password: string) {
         this._password = password;
 
-        database.updateData(Collections[Collections.landscapes], Fields[Fields.userName], 
+        database.updateData(Collections[Collections.users], Fields[Fields.userName], 
             '==', this._userName, { password: this._password });
     }
 
@@ -92,10 +115,11 @@ export class User extends Base {
     }
     
     set setUserName(userName: string) {
+        const oldUserName = this._userName;
         this._userName = userName;
 
-        database.updateData(Collections[Collections.landscapes], Fields[Fields.userName], 
-            '==', this._userName, { useName: this._userName });
+        database.updateData(Collections[Collections.users], Fields[Fields.userName], 
+            '==', oldUserName, { userName: this._userName });
     }
 
     get getVisited() {
@@ -105,8 +129,12 @@ export class User extends Base {
     set setVisited(visited: string[]){
         this._visited = visited;
 
-        database.updateData(Collections[Collections.landscapes], Fields[Fields.userName], 
-            '==', this._userName, { visited: this._visited });
+        this.updateLandscapesList(Fields[Fields.visited], this._visited);
+    }
+
+    private updateLandscapesList(listType: string, landscapes: string[]) {
+        database.updateData(Collections[Collections.users], Fields[Fields.userName], 
+            '==', this._userName, { [listType]: landscapes });
     }
 
     get getWantToVisit() {
@@ -116,7 +144,14 @@ export class User extends Base {
     set setWantToVisit(wantToVisit: string[]) {
         this._wantToVisit = wantToVisit;
 
-        database.updateData(Collections[Collections.landscapes], Fields[Fields.userName], 
-            '==', this._userName, { wantToVisit: this._wantToVisit });
+        this.updateLandscapesList(Fields[Fields.wantToVisit], this._wantToVisit);
+    }
+
+    public updateCommentsUser(userName: string): void {
+        database.updateData(Collections[Collections.comments], Fields[Fields.user], "==", this._userName, { user: userName });
+    }
+
+    public updateTripsUser(userName: string): void {
+        database.updateData(Collections[Collections.trips], Fields[Fields.user], "==", this._userName, { user: userName });
     }
 }

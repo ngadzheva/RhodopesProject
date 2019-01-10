@@ -1,0 +1,203 @@
+.content {
+    width: 90%;
+    margin-top: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+h3 {
+    color: #AF9453;
+    font-size: 3.5vw;
+    text-align: center;
+    margin-top: 15%;
+    margin-bottom: 35px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+ul {
+    display: block;
+    margin-top: 20%;
+    margin-left: 10%;
+    margin-right: auto;
+}
+
+li {
+    font-size: 1.5vw;
+    color: rgba(175, 147, 83, 0.685);
+    line-height: 20px;
+    letter-spacing: 5px;
+    margin-top: 15px;
+}
+
+span {
+    font-weight: bold;
+}
+
+.col-md-12 {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    font-size: 1.6vw;
+    text-align: justify;
+    line-height: 30px;
+}
+
+#btn-container {
+    display: block;
+    padding-top: 210%;
+    padding-bottom: 250%;
+}
+
+.btn-group{
+    display: block;
+}
+
+.btn {
+    border-radius: 50%;
+    background: rgba(175, 147, 83, 0.061);
+    margin: 5px;
+}
+
+.btn:hover {
+    background: rgba(175, 147, 83, 0.685);
+}
+
+.star, .notFav, .add, .visited, .comment, .image {
+    color: #AF9453;
+    margin-top: 10px;
+}
+
+.remove {
+    background: rgba(175, 147, 83, 0.685);
+}
+
+#map {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+agm-map {
+    height: 400px;
+    width: 100%;
+    border: 2px solid #AF9453;
+}
+
+.table {
+    margin-top: 15px;
+    color: #AF9453;
+}
+
+thead {
+    border-bottom: 1px solid #AF9453;
+    font-weight: bold;
+}
+
+a {
+    color: #AF9453;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(175, 147, 83, 0.685);
+}
+
+.comments{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow: auto;
+}
+
+.commentsContent{
+    position: relative;
+    top: 80px;
+    width: 60%;
+    text-align: center;
+    margin-top: 10px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.comments .closebtn{
+    position: absolute;
+    top: 15px;
+    right: 45px;
+    font-size: 60px;
+    cursor: pointer;
+    color: white;  
+}
+
+.comments .closebtn:hover{
+    color: #CCCCCC;
+}
+
+.comments textarea{
+    width: 700px;
+    height: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    position: relative;
+    overflow: auto;
+}
+
+#post{
+    display: block;
+    position: relative;
+    margin-left: 50px;
+    background: #AF9453;
+    color: white;
+    text-align: center;
+    width: 120px;
+    height: 30px;
+    margin-top: 15px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+#post:hover {
+    background: rgba(175, 147, 83, 0.685);
+}
+
+.userComments{
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #1D224C;
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    width: 700px;
+}
+
+.userComments h4{
+    text-align: left;
+    color: #1D224C;
+    margin-left: 15px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.userComments h4 time{
+    display: inline;
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 5px;
+    font-style: italic;
+}
+
+.userComments p{
+    color: #1D224C;
+    text-align: left;
+    margin: 15px;
+}

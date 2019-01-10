@@ -1,5 +1,4 @@
 import { database } from '../db/database';
-import { Landmark } from './landmark';
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 

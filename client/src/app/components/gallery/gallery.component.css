@@ -1,0 +1,40 @@
+h1, h4 {
+    font-family: 'EB Garamond';
+    color: #AF9453;
+}
+
+h1 {
+    font-size: 4vw;
+    text-align: center;
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+
+h4 {
+  font-size: 1.5vw;
+}
+
+.row {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-fluid {
+  width: 300px;
+  height: 200px;
+  border: 4px solid #eee;
+  box-shadow:#555 1px 1px 8px 1px;
+  cursor: pointer;
+  background-position: center;
+  background-size: cover;
+}
+
+a{
+  color: #AF9453;
+  text-decoration: none;
+}
+
+h4:hover {
+  color: rgba(175, 147, 83, 0.685);
+}

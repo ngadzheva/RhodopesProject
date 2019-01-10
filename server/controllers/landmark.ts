@@ -1,6 +1,4 @@
 import { Landmark } from '../models/landmark';
-import { Rhodopes } from '../models/rhodopes';
-import { Comments } from '../models/comments';
 
 export class LandmarkController {
     private _landscape: Landmark;
@@ -14,6 +12,9 @@ export class LandmarkController {
 
         info.description = this._landscape.getDescription;
         info.entranceFee = this._landscape.getEntranceFee;
+        info.image = this._landscape.getImage;
+        info.latitude = this._landscape.getLatitude;
+        info.longitude = this._landscape.getLongitude;
         info.location = this._landscape.getLocation;
         info.name = this._landscape.getName;
         info.hotels = this._landscape.getHotels;
@@ -36,5 +37,9 @@ export class LandmarkController {
 
     public getComments(landscape: string): Array<Object> {
         return this._landscape.getComments;
+    }
+
+    public getRating(): number {
+        return this._landscape.getRating;
     }
 }
