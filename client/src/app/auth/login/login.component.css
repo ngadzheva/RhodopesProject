@@ -1,0 +1,64 @@
+.container {
+    position: relative;
+    margin-top: 180px;
+}
+
+h1 {
+    color: #AF9453;
+    font-size: 4vw;
+    letter-spacing: 10px;
+    margin-bottom: 15px;
+    position: relative;
+    text-align: center;
+    padding-top: 100px;
+}
+
+form {
+    background: #FBFBFB;
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+}
+
+label {
+    color: #AF9453;
+    margin-bottom: 15px;
+}
+
+input {
+    border: none;
+    border-bottom: 1px solid #AF9453;
+    background: #FBFBFB;
+    color: #AF9453;
+}
+
+button {
+    width: 100%;
+    background: rgba(175, 147, 83, 0.685);
+    color: white;
+}
+
+button:hover {
+    background: #AF9453;
+}
+
+a {
+    color: #AF9453;
+    margin-top: 15px;
+    text-decoration: none;
+    font-size: 1.5vw;
+    text-align: right;
+}
+
+a:hover {
+    color: rgba(175, 147, 83, 0.685);
+}
+
+#error {
+    color: rgb(223, 39, 39);
+    font-size: 1vw;
+    margin-bottom: 15px;
+}

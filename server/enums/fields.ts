@@ -1,6 +1,11 @@
 export enum Fields {
+    user,
     userName,
     name,
     rhodopesPart,
-    landscapeName
+    landscapeName,
+    parentFolder,
+    favorite,
+    visited,
+    wantToVisit
 }

@@ -10,11 +10,10 @@ firebase-debug.log*
 .firebase/
 
 # Firebase config
+.firebaserc
 
-# Uncomment this if you'd like others to create their own Firebase project.
-# For a team working on the same Firebase project(s), it is recommended to leave
-# it commented so all members can deploy to the same project(s) in .firebaserc.
-# .firebaserc
+# FirebaseAdmin
+rhodope-ee682-firebase-adminsdk-jts1t-652eec230c.json
 
 # Runtime data
 pids

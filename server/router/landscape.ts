@@ -13,63 +13,23 @@ landscapeRouter.get('/:rhodopesPart', (request: express.Request, response: expre
     const rhodopesPart = request.params.rhodopesPart;
     const landscapes = rhodopesPart === 'west' ? west.viewLandscapes() : east.viewLandscapes();
 
-    const landmarks: { [key: string]: any} = {};
+    const landmarks: Array<Object> = new Array();
 
-    landscapes.forEach((value: any, key: any) => {
-        landmarks[key] = value;
+    landscapes.forEach((value: any) => {
+        landmarks.push(value);
     });
 
-    response.send(landmarks);
+    response.status(200).send(landmarks);
 });
 
 landscapeRouter.get('/:rhodopesPart/:landscapeName', (request: express.Request, response: express.Response) => {
     const rhodopesPart = request.params.rhodopesPart;
     const landscapeName = request.params.landscapeName;
     landscape = rhodopesPart === 'west' ? 
-                new LandmarkController(west.getLandscape(landscapeName)) : 
-                new LandmarkController(east.getLandscape(landscapeName));
+                new LandmarkController(west.getLandscape(landscapeName) as { [key: string]: any }) : 
+                new LandmarkController(east.getLandscape(landscapeName) as { [key: string]: any });
 
-    response.send(landscape.viewLandscapeInfo());
+    response.status(200).send(landscape.viewLandscapeInfo());
 });
 
-landscapeRouter.post('/:rhodopesPart/:landscapeName/vote', (request: express.Request, response: express.Response) => {
-    const rhodopesPart = request.params.rhodopesPart;
-    const landscapeName = request.params.landscapeName;
-    const { vote } = request.body;
-    // const landscape = rhodopesPart === 'west' ? 
-    //             new LandmarkController(west.getLandscape(landscapeName)) : 
-    //             new LandmarkController(east.getLandscape(landscapeName));
-
-    landscape.vote(vote);
-});
-
-landscapeRouter.post('/:rhodopesPart/:landscapeName/comment', (request: express.Request, response: express.Response) => {
-    const rhodopesPart = request.params.rhodopesPart;
-    const landscapeName = request.params.landscapeName;
-    const { content, date, user } = request.body;
-    // const landscape = rhodopesPart === 'west' ? 
-    //             new LandmarkController(west.getLandscape(landscapeName)) : 
-    //             new LandmarkController(east.getLandscape(landscapeName));
-    
-    landscape.postComment(content, date, user);
-    response.redirect('/:rhodopesPart/:landscapeName/comments');
-});
-
-landscapeRouter.get('/:rhodopesPart/:landscapeName/comments', (request: express.Request, response: express.Response) => {
-    const rhodopesPart = request.params.rhodopesPart;
-    const landscapeName = request.params.landscapeName;
-    // const landscape = rhodopesPart === 'west' ? 
-    //             new LandmarkController(west.getLandscape(landscapeName)) : 
-    //             new LandmarkController(east.getLandscape(landscapeName));
-
-    const comments = landscape.getComments(landscapeName);
-    let commentsToShow: { [key: number]: object} = {};
-
-    comments.forEach((value: object, index: number) => {
-        commentsToShow[index] = value;
-    });
-
-    response.send(landscape.getComments(landscapeName));
-});
-
-export { landscapeRouter };
+export { landscapeRouter, landscape };

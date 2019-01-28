@@ -16,8 +16,9 @@ Oсновните задачи на тази система са да:
 <ul>
   <li> TypeScript </li>
   <li> JavaScript (ES6)</li>
-  <li> AngularJS</li>
+  <li> Angular</li>
   <li> Express</li>
+  <li>Socket.io</li>
   <li> Firebase</li>
   <li> HTML</li>
   <li> CSS</li>

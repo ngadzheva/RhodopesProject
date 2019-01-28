@@ -1,0 +1,41 @@
+h1, h4 {
+    font-family: 'EB Garamond';
+    color: #AF9453;
+}
+
+h1 {
+    font-size: 4vw;
+    text-align: center;
+    position: relative;
+    padding-top: 100px;
+    margin-bottom: 40px;
+}
+
+h4 {
+    font-size: 2vw;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.media {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #AF9453;
+}
+
+#btn-container {
+    float: right;
+}
+
+.btn {
+    display: inline;
+    border-radius: 50%;
+    background: rgba(175, 147, 83, 0.061);
+}
+
+.btn:hover {
+    background: rgba(175, 147, 83, 0.685);
+}

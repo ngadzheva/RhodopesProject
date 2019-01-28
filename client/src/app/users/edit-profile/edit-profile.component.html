@@ -1,0 +1,50 @@
+<app-sidebar></app-sidebar>
+<h1>Редактиране на профил</h1>
+<div class="container">
+  <form name="registration" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" class="form-horizontal" role="form" novalidate>
+    <div *ngIf="errorMessage" id="error">{{errorMessage}}</div>
+    <div class="form-group">
+      <label for="userName">Потребителско име</label>
+      <input type="text" class="form-control" name="userName" [(ngModel)]="user.userName" #userName="ngModel" [ngClass]="{'is-invalid': f.submitted && userName.invalid}" placeholder="Въведи потребителско име" required/>
+      <div *ngIf="f.submitted && userName.invalid" class="invalid-feedback">
+        <div *ngIf="userName.errors.required">Въведете потребителско име.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" name="email" [(ngModel)]="user.email" #email="ngModel" [ngClass]="{'is-invalid': f.submitted && email.invalid}" placeholder="Въведи email" required email/>
+      <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+        <div *ngIf="email.errors.required">Въведете email</div>
+        <div *ngIf="email.errors.email">Въведете валиден email</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="oldPassword">Стара парола</label>
+      <input type="password" class="form-control" name="oldPassword" [(ngModel)]="user.oldPassword" #oldPassword="ngModel" [ngClass]="{'is-invalid':f.submitted && oldPassword.invalid}" required minlength="3" placeholder="Въведи парола" required/>
+      <div *ngIf="f.submitted && oldPassword.invalid" class="invalid-feedback">
+        <div *ngIf="oldPassword.errors.required">Въведете парола</div>
+        <div *ngIf="oldPassword.errors.minlength">Паролата трябва да е поне 6 символа</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password">Нова парола</label>
+      <input type="password" class="form-control" name="newPassword" [(ngModel)]="user.newPassword" #newPassword="ngModel" [ngClass]="{'is-invalid':f.submitted && newPassword.invalid}" required minlength="3" placeholder="Въведи парола" required/>
+      <div *ngIf="f.submitted && newPassword.invalid" class="invalid-feedback">
+        <div *ngIf="newPassword.errors.required">Въведете парола</div>
+        <div *ngIf="newPassword.errors.minlength">Паролата трябва да е поне 6 символа</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Потвърди парола</label>
+      <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" [ngClass]="{'is-invalid':f.submitted && confirmPassword.invalid}" required minlength="3" placeholder="Потвърди парола" required/>
+      <div *ngIf="f.submitted && confirmPassword.invalid" class="invalid-feedback">
+        <div *ngIf="confirmPassword.errors.required">Въведете парола</div>
+        <div *ngIf="confirmPassword.errors.minlength">Паролата трябва да е поне 6 символа</div>
+        <div *ngIf="mustMatch()">Двете пароли трябва да съвпадат</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <button class="btn">Редактиране</button>
+    </div>
+  </form>
+</div>

@@ -1,11 +1,10 @@
 import { database } from '../db/database';
-import { Landmark } from './landmark';
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 
 export class Rhodopes {
     private _rhodopesPart: string;
-    private _landscapes: any;
+    private _landscapes: Map<string, { [key: string]: any }>;
 
     constructor(rhodopesPart: string) {
         this._rhodopesPart = rhodopesPart;
@@ -24,11 +23,11 @@ export class Rhodopes {
                 });
     }
 
-    get getLandscapes() {
+    get getLandscapes(): Map<string, { [key: string]: any }> {
         return this._landscapes;
     }
 
-    public getLandscapeInfo(landscape: string): { [key: string]: any } {
+    public getLandscapeInfo(landscape: string): { [key: string]: any } | undefined{
         return this._landscapes.get(landscape); 
     }
 }

@@ -1,13 +1,14 @@
-import { Base } from './base';
-import { ILandmark } from '../interfaces/landmark';
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 import { database } from '../db/database';
 import { Comments } from './comments';
 
-export class Landmark extends Base{
+export class Landmark {
     private _description: string;
     private _entranceFee: number;
+    private _image: string;
+    private _latitude: number;
+    private _longitutde: number;
     private _location: string;
     private _name: string;
     private _hotels: Array<Object>;
@@ -18,13 +19,14 @@ export class Landmark extends Base{
     private _workTime: string;
     private _comments: Comments;
 
-    constructor(landscape: { [key: string]: any }) {//constructor(name: string, rhodopesPart: string) {
-        let { description, entranceFee, location, name, hotels, rating, rhodopesPart, shortInfo, transitionTime, workTime } = landscape;
-        
-        super('');
+    constructor(landscape: { [key: string]: any }) {
+        let { description, entranceFee, image, latitude, longitude, location, name, hotels, rating, rhodopesPart, shortInfo, transitionTime, workTime } = landscape;
 
         this._description = description;
         this._entranceFee = entranceFee;
+        this._image = image;
+        this._latitude = latitude;
+        this._longitutde = longitude;
         this._location = location;
         this._name = name;
         this._hotels = hotels;
@@ -36,23 +38,6 @@ export class Landmark extends Base{
 
         this._comments = new Comments(this._name);
     }
-
-    // public load() {
-    //     database.queryData(Collections[Collections.landscapes], Fields[Fields.name], '==', this._name)
-    //             .onSnapshot((querySnapshot: any) => {
-    //                 querySnapshot.forEach((doc: any) => {
-    //                     this.setID(doc.id);
-    //                     this._description = doc.data().description;
-    //                     this._entranceFee = doc.data().entranceFee;
-    //                     this._location = doc.data().location;
-    //                     this._hotels = doc.data().hotels;
-    //                     this._rating = doc.data().rating;
-    //                     this._shortInfo = doc.data().shortInfo;
-    //                     this._transitionTime = doc.data().transitionTime;
-    //                     this._workTime = doc.data().workTime;
-    //                 });
-    //             });
-    // }
 
     get getDescription(){
         return this._description;
@@ -68,6 +53,22 @@ export class Landmark extends Base{
 
     set setEntranceFee(entranceFee: number){
         this._entranceFee = entranceFee;
+    }
+
+    get getImage() {
+        return this._image;
+    }
+
+    set setImage(url: string) {
+        this._image = url;
+    }
+
+    get getLatitude() {
+        return this._latitude;
+    }
+
+    get getLongitude() {
+        return this._longitutde;
     }
 
     get getLocation(){
@@ -137,11 +138,11 @@ export class Landmark extends Base{
         this._workTime = workTime;
     }
 
-    get getComments(): Array<Object> {
+    get getComments(): Array<{ [key: string]: any }> {
         return this._comments.getComments;
     }
 
-    public setComment(content: string, datePublished: Date, user: string){
-        this._comments.postComment(content, datePublished, user);
+    public setComment(comment: { [key: string]: any }){
+        this._comments.postComment(comment);
     }
 }
