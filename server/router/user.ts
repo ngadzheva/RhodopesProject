@@ -8,6 +8,7 @@ userRouter.use(cookieParser());
 
 import { user, userTrips } from './login';
 import { auth } from '../middleware/auth';
+import * as jwt from 'jsonwebtoken';
 
 userRouter.get('/', (request: express.Request, response: express.Response) => {
     if (user) {

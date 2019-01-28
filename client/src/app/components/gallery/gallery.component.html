@@ -1,0 +1,10 @@
+<h1>Галерия {{rhodopesPart === 'west' ? 'Западни' : 'Източни'}} Родопи</h1>
+
+<div class="row text-center text-lg-left"> 
+  <div *ngFor="let album of gallery" class="col-lg-3 col-md-4 col-xs-6">
+    <a routerLink="{{album.landscape}}" class="d-block h-50">
+      <div [ngStyle]="{'background-image':'url('+ album.images +')'}" class="img-container img-fluid img-thumbnail"></div>
+      <h4>{{album.landscape}}</h4>
+    </a>
+  </div>
+</div>

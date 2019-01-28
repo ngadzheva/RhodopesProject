@@ -69,4 +69,8 @@ export class LandmarkController {
     public getRating(): number {
         return this._landscape.getRating;
     }
+
+    public getRating(): number {
+        return this._landscape.getRating;
+    }
 }

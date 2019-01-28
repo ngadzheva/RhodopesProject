@@ -1,0 +1,91 @@
+.content {
+    width: 90%;
+    margin-top: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+h1, h4 {
+    font-family: 'EB Garamond';
+    text-align: center;
+}
+
+h1 {
+    font-size: 4vw;
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    color: #AF9453;
+}
+
+h4, h5, li, p {
+    color: #FBFBFB;
+}
+
+h4 {
+    font-size: 2vw;
+    margin-bottom: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+h5 {
+    font-size: 1.5vw;
+    font-weight: bold;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+form {
+    background: #FBFBFB;
+    padding: 15px;
+}
+
+label, option {
+    color: #AF9453;
+}
+
+label:not([class]) {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, select {
+    border: none;
+    border-bottom: 1px solid #AF9453;
+    background: #FBFBFB;
+    color: #AF9453;
+}
+
+#plan {
+    background: #AF9453;
+}
+
+button {
+    width: 100%;
+    background: rgba(175, 147, 83, 0.685);
+    color: white;
+}
+
+.calendar {
+    width: 50px;
+    height: 40px;
+    float: right;
+    margin-top: -40px;
+    padding-bottom: 5px;
+}
+
+button:hover {
+    background: #AF9453;
+}
+
+#planbtn{
+    background: #FBFBFB;
+    color: #AF9453;
+    margin-top: 15px;
+}
+
+#planbtn:hover {
+    background: rgb(235, 233, 233);
+}

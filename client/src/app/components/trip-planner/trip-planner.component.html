@@ -1,0 +1,71 @@
+<div class="content">
+  <h1>Планиране на пътуване</h1>
+
+  <div class="row">
+    <div class="col-md-6" id="fields">
+      <form name="tripPlan" #f="ngForm" class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="tripPlan">Име на пътуване</label>
+          <input type="text" class="form-control" name="tripName" [(ngModel)]="tripName" required/>
+        </div>
+        <div class="form-group">
+          <label for="startPoint">Начална точка</label>
+          <input type="text" class="form-control" name="startPoint" [(ngModel)]="startPoint" required/>
+        </div>
+        <div class="form-group">
+          <label for="dp">Дата</label>
+          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
+          <button class="btn btn-outline-secondary calendar mdc-icon-button material-icons" (click)="d.toggle()" type="button">calendar_today</button> 
+        </div>
+  
+        <div class="form-group">
+          <label for="rhodopesPart">Родопи</label>
+          <select (change)="loadLandscapes($event.target.value)" class="form-control" name="rhodopesPart">
+            <option value=""></option>
+            <option value="east">Източни Родопи</option>
+            <option value="west">Западни Родопи</option>
+          </select>
+        </div>
+        <div *ngIf="landmarks" class="form-group">
+          <label for="landmarks">Забележителности</label><br/>
+          <div *ngFor="let landmark of landmarks" class="form-check form-check-inline">
+            <input (change)="loadLandscape($event.target.value)" class="form-check-input" type="checkbox" id="landmark" [value]="landmark.name">
+            <label class="form-check-label" for="landmark">{{landmark.name}}</label>
+          </div>
+          
+        </div>
+        <div *ngIf="hotels.length > 0" class="form-group">
+          <label for="hotels">Хотели</label>
+          <select (click)="addHotel($event.target.value)" class="form-control" id="hotels" required name="hotels">
+            <option value=""></option>
+            <option *ngFor="let hotel of hotels" [value]="hotel">{{hotel}}</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <button (click)="addNewDay()" class="btn">Добави ден</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-6" id="plan">
+      <h4>План</h4>
+
+      <ol *ngIf="plan">
+        <li *ngFor="let day of plan">
+          <h5>Дата</h5>
+          <p>{{day.date | date}}</p>
+          <h5>Забележителности</h5>
+          <ul>
+            <li *ngFor="let landscape of day.landscapes">{{landscape}}</li>
+          </ul>
+          <h5 *ngIf="day.hotel">Хотел</h5>
+          <p>{{day.hotel}}</p>
+        </li>
+      </ol>
+      <div (click)="makePlan()" class="form-group">
+        <button class="btn" id="planbtn">Планирай</button>
+      </div>
+    </div>
+  </div>
+</div>

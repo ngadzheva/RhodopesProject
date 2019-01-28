@@ -1,0 +1,38 @@
+<app-sidebar></app-sidebar>
+
+<h1>Планирани пътувания</h1>
+
+<ul>
+  <li *ngFor="let trip of trips">
+    <div class="media border p-3">
+      <div class="media-body">
+        <h4>
+          {{ trip.name }}   
+        </h4> 
+        <h5><b>Начална точка:</b> {{trip.startPoint}}</h5>
+        <div class="table-responsive table-hover">          
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Дата</th>
+                      <th>Забележителности</th>
+                      <th>Хотел</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let plan of trip.plan">
+                      <td>{{plan.date | date}}</td>
+                      <td>
+                        <ul>
+                          <li *ngFor="let landscape of plan.landscapes">{{landscape}}</li>
+                        </ul>
+                      </td>
+                      <td>{{plan.hotel}}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>  
+  </li>
+</ul>
