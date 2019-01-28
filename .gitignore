@@ -65,3 +65,6 @@ dist/
 
 # dotenv environment variables file
 .env
+
+#Dist directories
+dist/
