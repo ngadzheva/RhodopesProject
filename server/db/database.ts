@@ -29,16 +29,15 @@ class DataBase {
             .get()
             .then((result: any) => {
                 result.forEach((doc: any) => {
-                    var transaction = this._dbInstance.runTransaction((t: any) => {
+                    this._dbInstance.runTransaction((t: any) => {
                         let toUpdate = collectionRef.doc(doc.id);
-                        return t.get(toUpdate)
-                        .then((doc: any) => {
+                        return t.get(toUpdate).then((doc: any) => {
                             t.update(toUpdate, dataToUpdate);
-                    }).then(() => {
-                        console.log('Transaction success');
-                    }).catch(() => {
-                        console.log('Transaction failure:');
-                    });
+                        }).then(() => {
+                            console.log('Transaction success');
+                        }).catch(() => {
+                            console.log('Transaction failure:');
+                        });
                     });
                 });
             });
@@ -48,18 +47,18 @@ class DataBase {
         return this._dbInstance.collection(collection).where(field, condition, value);     
     }
 
-    public uploadImage(path: string) {
-        //const file = this._storage.file(name);
+    public uploadImage(directory: string, path: string) {
         return this._storage.upload(path, {
             uploadType: "media",
-                metadata: {
+            metadata: {
                 contentType: 'image/jpg'
-                }
-            }).then((data: any) => {
-                let file = data[0];
-                console.log(file.name);
-                return Promise.resolve("https://firebasestorage.googleapis.com/v0/b/" + this._storage.name + "/o/" + encodeURIComponent(file.name) + "?alt=media");
-              });
+            },
+            destination: directory + path
+        }).then((data: any) => {
+            let file = data[0];
+            console.log(file.name);
+            return Promise.resolve("https://firebasestorage.googleapis.com/v0/b/" + this._storage.name + "/o/" + encodeURIComponent(file.name) + "?alt=media");
+        });
     }
 }
 

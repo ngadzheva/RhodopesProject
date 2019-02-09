@@ -5,6 +5,7 @@ export enum Fields {
     rhodopesPart,
     landscapeName,
     parentFolder,
+    folder, 
     favorite,
     visited,
     wantToVisit

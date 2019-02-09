@@ -4,6 +4,7 @@ import { database } from '../db/database';
 import { Comments } from './comments';
 
 export class Landmark {
+    private _active: boolean;
     private _description: string;
     private _entranceFee: number;
     private _image: string;
@@ -20,8 +21,9 @@ export class Landmark {
     private _comments: Comments;
 
     constructor(landscape: { [key: string]: any }) {
-        let { description, entranceFee, image, latitude, longitude, location, name, hotels, rating, rhodopesPart, shortInfo, transitionTime, workTime } = landscape;
+        let { active, description, entranceFee, image, latitude, longitude, location, name, hotels, rating, rhodopesPart, shortInfo, transitionTime, workTime } = landscape;
 
+        this._active = active;
         this._description = description;
         this._entranceFee = entranceFee;
         this._image = image;
@@ -37,6 +39,27 @@ export class Landmark {
         this._workTime = workTime;
 
         this._comments = new Comments(this._name);
+    }
+
+    public updateLandscapeData(newData: { [key: string]: any }) {
+        const oldName = this._name;
+
+        database.updateData(Collections[Collections.landscapes], Fields[Fields.name], 
+            '==',oldName, newData);
+
+        this._description = newData.description;
+        this._entranceFee = newData.entranceFee;
+        this._image = newData.image;
+        this._latitude = newData.latitude;
+        this._longitutde = newData.longitude;
+        this._location = newData.location;
+        this._name = newData.name;
+        this._hotels = newData.hotels;
+        this._rating = newData.rating;
+        this._rhodopesPart = newData.rhodopesPart;
+        this._shortInfo = newData.shortInfo;
+        this._transitionTime = newData.transitionTime;
+        this._workTime = newData.workTime;
     }
 
     get getDescription(){

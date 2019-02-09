@@ -26,7 +26,6 @@ export class AuthService {
     };
 
     return this.http.post<{ [key: string]: string }>(`${environment.server}/login`, body);
-
   }
 
   logOut() {

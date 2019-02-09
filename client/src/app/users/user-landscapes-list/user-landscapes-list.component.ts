@@ -60,9 +60,9 @@ export class UserLandscapesListComponent implements OnInit, DoCheck, OnDestroy {
     this.removeSubscription = this.userService.removeLandscape(this.listType, landscape).subscribe(response => {
       if(response.success){
         this.landscapes = response.data;
-      } else {
-        this.router.navigateByUrl('/login');
-      }
+      } 
+    }, error => {
+      this.router.navigateByUrl('/login');
     });
   }
 }

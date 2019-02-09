@@ -1,0 +1,18 @@
+<app-admin-sidebar></app-admin-sidebar>
+
+<div id="container">
+  <h1>Редактиране</h1>
+
+  <div class="row text-center text-lg-left"> 
+    <div class="col-lg-3 col-md-4 col-xs-6">
+      <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput class="btn">
+      <div (click)="fileInput.click()" class="img-container img-fluid img-thumbnail material-icons add" title="Добави">add</div>
+      <button *ngIf="selectedFile" type="button" (click)="onUpload()" class="btn">Качи снимка</button> 
+    </div>
+    <div *ngFor="let image of landscapeGallery" class="col-lg-3 col-md-4 col-xs-6">
+      <span (click)="deleteImage(image)" class="d-block h-50">
+        <div [ngStyle]="{'background-image':'url('+ image +')'}" class="img-container img-fluid img-thumbnail  material-icons delete" title="Изтрий">delete</div>
+      </span>
+    </div>
+  </div>
+</div>

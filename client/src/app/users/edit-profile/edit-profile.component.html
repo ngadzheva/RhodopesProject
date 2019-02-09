@@ -1,4 +1,6 @@
-<app-sidebar></app-sidebar>
+<app-sidebar *ngIf="user.role === 'user'"></app-sidebar>
+<app-admin-sidebar *ngIf="user.role === 'admin'"></app-admin-sidebar>
+
 <h1>Редактиране на профил</h1>
 <div class="container">
   <form name="registration" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" class="form-horizontal" role="form" novalidate>
@@ -36,12 +38,12 @@
     </div>
     <div class="form-group">
       <label for="confirmPassword">Потвърди парола</label>
-      <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" [ngClass]="{'is-invalid':f.submitted && confirmPassword.invalid}" required minlength="3" placeholder="Потвърди парола" required/>
+      <input (change)="mustMatch()" type="password" class="form-control" name="confirmPassword" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" [ngClass]="{'is-invalid':f.submitted && confirmPassword.invalid}" required minlength="3" placeholder="Потвърди парола" required/>
       <div *ngIf="f.submitted && confirmPassword.invalid" class="invalid-feedback">
         <div *ngIf="confirmPassword.errors.required">Въведете парола</div>
         <div *ngIf="confirmPassword.errors.minlength">Паролата трябва да е поне 6 символа</div>
-        <div *ngIf="mustMatch()">Двете пароли трябва да съвпадат</div>
       </div>
+      <div *ngIf="notMatch" id="notMatch">Двете пароли трябва да съвпадат</div>
     </div>
     <div class="form-group">
       <button class="btn">Редактиране</button>

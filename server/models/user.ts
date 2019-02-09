@@ -1,7 +1,8 @@
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 import { database } from '../db/database';
-import { Trip } from './trip';
+import { Trips } from './trips';
+import { UserRoles } from '../enums/userRoles';
 
 export class User {
     private _email: string;
@@ -11,50 +12,21 @@ export class User {
     private _userName: string;
     private _visited: string[];
     private _wantToVisit: string[];
-    private _userTrips: Trip;
+    private _userTrips: Trips;
+    private _userRole: string;
 
-    constructor(userName: string, password: string) {
-        this._password = password;
-        this._userName = userName;
+    constructor(user: {[key: string]: any }) {
+        this._password = user.password;
+        this._userName = user.userName;
 
-        this._email = '';
-        this._favorite = [];
-        this._image = undefined;
-        this._visited = [];
-        this._wantToVisit = [];
-        this._userTrips = new Trip(userName);
-
-        this.load();
-        //this._userTrips.loadTrip(userName);
+        this._email = user.email;
+        this._favorite = user.favorite;
+        this._image = user.image;
+        this._visited = user.visited;
+        this._wantToVisit = user.wantToVisit;
+        this._userTrips = new Trips(this._userName);
+        this._userRole = user.role;
     }
-
-    private load(): void {
-        database.queryData(Collections[Collections.users], Fields[Fields.userName], '==', this._userName)
-            .onSnapshot((querySnapshot: any) => {
-                querySnapshot.forEach((doc: any) => {
-                    this._userName = doc.data().userName;
-                    this._password = doc.data().password;
-                    this._email = doc.data().email;
-                    this._favorite = doc.data().favorite;
-                    this._image = doc.data().image;
-                    this._visited = doc.data().visited;
-                    this._wantToVisit = doc.data().wantToVisit;
-                });
-            });
-    }
-
-    // public insert(userName: string, password: string, email: string): void {
-    //     let newUser: object = {
-    //         email,
-    //         favorite: [],
-    //         password,
-    //         userName,
-    //         visited: [],
-    //         wantToVisit: []
-    //     }
-
-    //     database.insertData(Collections[Collections.users], newUser);
-    // }
 
     public updateInfo(userName: string, email: string, password: string): void {
         database.updateData(Collections[Collections.users], Fields[Fields.userName], 
@@ -76,6 +48,10 @@ export class User {
             '==', this._userName, { email: this._email });
     }
 
+    get getRole() {
+        return this._userRole;
+    }
+
     get getFavorite() {
         return this._favorite;
     }
@@ -90,8 +66,8 @@ export class User {
         return this._image;
     }
 
-    public setImage(path: string) {
-        database.uploadImage(path).then((data: any) => {
+    public setImage(directory: string, path: string) {
+        database.uploadImage(directory, path).then((data: any) => {
             this._image = data;
 
             database.updateData(Collections[Collections.users], Fields[Fields.userName], 

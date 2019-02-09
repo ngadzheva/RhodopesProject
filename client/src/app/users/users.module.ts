@@ -12,6 +12,7 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 
 import { UserService } from './shared/services/user.service';
 import { UploadService } from './shared/services/upload.service';
+import { AdminSidebarComponent } from './shared/components/admin-sidebar/admin-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { UploadService } from './shared/services/upload.service';
     UserLandscapesListComponent,
     UserTripsComponent,
     EditProfileComponent,
-    SidebarComponent
+    SidebarComponent,
+    AdminSidebarComponent
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,9 @@ import { UploadService } from './shared/services/upload.service';
   providers: [
     UserService,
     UploadService
+  ],
+  exports: [
+    AdminSidebarComponent
   ]
 })
 export class UsersModule { }

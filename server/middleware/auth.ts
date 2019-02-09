@@ -1,7 +1,8 @@
 import * as express from 'express';
 import { user } from '../router/login';
+import { UserRoles } from '../enums/userRoles';
 
-export function auth(request: any, response: express.Response, next: express.NextFunction) {
+function auth(request: any, response: express.Response, next: express.NextFunction) {
   if(user) {
     next();
   } else {
@@ -11,4 +12,16 @@ export function auth(request: any, response: express.Response, next: express.Nex
         });
   }
 }
-  
+
+function admin(request: any, response: express.Response, next: express.NextFunction) {
+  if(user.getUserRole() === UserRoles[UserRoles.admin]) {
+    next();
+  } else {
+    return response.status(401).send({ 
+            success: false, 
+            message: 'Неоторизиран достъп.' 
+        });
+  }
+} 
+
+export { auth, admin };

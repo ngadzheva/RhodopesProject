@@ -1,0 +1,134 @@
+#container {
+    margin-left: 200px;
+}
+
+.error {
+    color: red;
+    font-size: 50px;
+}
+
+h1, h4 {
+    font-family: 'EB Garamond';
+    color: #AF9453;
+}
+
+h1 {
+    font-size: 4vw;
+    text-align: center;
+    position: relative;
+    padding-top: 100px;
+    margin-bottom: 40px;
+}
+
+h4 {
+    font-size: 2vw;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+a {
+    color: #AF9453;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(175, 147, 83, 0.685);
+}
+
+p {
+    text-align: justify;
+    margin-bottom: 15px;
+    font-size: 1.5vw;
+}
+
+img {
+    width: 15%;
+}
+
+button {
+    float: right;
+}
+
+.btn {
+    border-radius: 50%;
+    background: rgba(175, 147, 83, 0.061);
+    margin: 5px;
+}
+
+.btn:hover {
+    background: rgba(175, 147, 83, 0.685);
+}
+
+.remove {
+    background: rgba(175, 147, 83, 0.685);
+}
+
+.media {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #AF9453;
+}
+
+.edit, .delete {
+    color: #AF9453;
+}
+
+.addLandscape {
+    border-style: dashed;
+    text-align: center;
+}
+
+#editImage {
+    opacity: 0.7;
+    background-size: cover;
+}
+
+#editImage:hover {
+    opacity: 0.5;
+}
+
+#addImage, #editImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 15px;
+    padding-top: 60px;
+}
+
+#addImage {
+    border-style: dashed;
+    border-color: #eee;
+}
+
+.add, #editImage {
+    text-align: center;
+    color: #eee;
+}
+
+#addImage:hover, #editImage:hover {
+    cursor: pointer;
+    color: rgba(175, 147, 83, 0.685);
+}
+
+#uploadBtn {
+    width: 150px;
+    background: rgba(175, 147, 83, 0.685);
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    color: white;
+    display: block;
+}
+
+#uploadBtn:hover {
+    background: #AF9453;
+    cursor: pointer;
+}

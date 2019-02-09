@@ -1,4 +1,5 @@
-<app-sidebar></app-sidebar>
+<app-sidebar *ngIf="user.role === 'user'"></app-sidebar>
+<app-admin-sidebar *ngIf="user.role === 'admin'"></app-admin-sidebar>
 
 <div class="container">
     <div class="row">

@@ -1,0 +1,121 @@
+<app-admin-sidebar></app-admin-sidebar>
+
+<div class="content">
+    <h1>{{isEditLandscape ? 'Редактиране' : 'Добавяне'}} на забележителност</h1>
+  
+    <div class="row">
+      <div class="col-md-6" id="fields">
+        <form name="landmark" #f="ngForm" class="form-horizontal" role="form">
+          <div *ngIf="errorMessage" id="error">{{errorMessage}}</div>
+          <div class="form-group">
+            <label for="landscape">Забележителност</label>
+            <input type="text" class="form-control" name="landscape" [(ngModel)]="landscapeInfo.name" required/>
+          </div>
+
+          <div class="form-group">
+            <label for="rhodopesPart">Част на Родопите</label>
+            <input type="text" class="form-control" name="rhodopesPart" [(ngModel)]="landscapeInfo.rhodopesPart" required/>
+          </div>
+          <div class="form-group">
+            <label for="location">Местоположение</label>
+            <input type="text" class="form-control" name="location" [(ngModel)]="landscapeInfo.location" required/>
+          </div>
+          <div class="form-group">
+            <label for="latitude">Географска ширина</label>
+            <input type="number" class="form-control" name="latitude" [(ngModel)]="landscapeInfo.latitude" required/>
+          </div>
+          <div class="form-group">
+            <label for="longitude">Географска дължина</label>
+            <input type="number" class="form-control" name="longitude" [(ngModel)]="landscapeInfo.longitude" required/>
+          </div>
+          <div class="form-group">
+            <label for="entranceFee">Входна такса</label>
+            <input type="text" class="form-control" name="entranceFee" [(ngModel)]="landscapeInfo.entranceFee" required/>
+          </div>
+          <div class="form-group">
+            <label for="workTime">Работно време</label>
+            <input type="text" class="form-control" name="workTime" [(ngModel)]="landscapeInfo.workTime" required/>
+          </div>
+          <div class="form-group">
+            <label for="transitionTime">Време за преход</label>
+            <input type="text" class="form-control" name="transitionTime" [(ngModel)]="landscapeInfo.transitionTime" required/>
+          </div>
+          <div class="form-group">
+            <label for="shortInfo">Кратко описание</label>
+            <textarea class="form-control description" name="shortInfo" [(ngModel)]="landscapeInfo.shortInfo" rows="10" cols="30">{{landscapeInfo.shortInfo}}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea class="form-control description" name="description" [(ngModel)]="landscapeInfo.description" rows="10" cols="50">{{landscapeInfo.description}}</textarea>
+          </div>
+
+          <div class="form-group">
+            <button *ngIf="isEditLandscape" (click)="editLandscape()" class="btn">Редактирай</button>
+            <button *ngIf="!isEditLandscape" (click)="addLandscape()" class="btn">Добави</button>
+          </div>
+        </form>
+      </div>
+  
+      <div class="col-md-6" id="hotels">
+        <h4>Хотели</h4>
+  
+        <div *ngFor="let hotel of landscapeInfo.hotels">
+          <div class="form-group">
+            <label for="hotelName">Хотел</label>
+            <input type="text" class="form-control" name="hotelName" [(ngModel)]="hotel.name" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelLocation">Местоположение</label>
+            <input type="text" class="form-control" name="hotelLocation" [(ngModel)]="hotel.location" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelDistance">Разстояние до забележителността</label>
+            <input type="text" class="form-control" name="hotelDistance" [(ngModel)]="hotel.distance" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelPrice">Цена на нощувка</label>
+            <input type="text" class="form-control" name="hotelPrice" [(ngModel)]="hotel.price" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelRooms">Вид стаи</label>
+            <input type="text" class="form-control" name="hotelRooms" [(ngModel)]="hotel.rooms" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelPage">Страница на хотела</label>
+            <input type="text" class="form-control" name="hotelPage" [(ngModel)]="hotel.webSite"/>
+          </div>
+        </div>
+
+        <div *ngIf="addHotel">
+          <div class="form-group">
+            <label for="hotelName">Хотел</label>
+            <input type="text" class="form-control" name="hotelName" [(ngModel)]="newHotel.name" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelLocation">Местоположение</label>
+            <input type="text" class="form-control" name="hotelLocation" [(ngModel)]="newHotel.location" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelDistance">Разстояние до забележителността</label>
+            <input type="text" class="form-control" name="hotelDistance" [(ngModel)]="newHotel.distance" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelPrice">Цена на нощувка</label>
+            <input type="text" class="form-control" name="hotelPrice" [(ngModel)]="newHotel.price" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelRooms">Вид стаи</label>
+            <input type="text" class="form-control" name="hotelRooms" [(ngModel)]="newHotel.rooms" required/>
+          </div>
+          <div class="form-group">
+            <label for="hotelPage">Страница на хотела</label>
+            <input type="text" class="form-control" name="hotelPage" [(ngModel)]="newHotel.webSite"/>
+          </div>
+        </div>
+
+        <div (click)="addNewHotel()" class="form-group">
+          <button class="btn" id="hotelsbtn">Добави хотел</button>
+        </div>
+      </div>
+    </div>
+</div>

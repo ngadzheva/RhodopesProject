@@ -32,6 +32,10 @@ const routes: Routes = [
   {
     path: ':listType',
     component: UserLandscapesListComponent
+  },
+  {
+    path: 'admin',
+    loadChildren: './admin/admin.module#AdminModule'
   }
 ]
 

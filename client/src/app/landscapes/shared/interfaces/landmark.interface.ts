@@ -1,9 +1,10 @@
 export interface ILandmark {
+    active: boolean;
     description: string;
     entranceFee: number;
     image: string;
     latitude: number;
-    longitutde: number;
+    longitude: number;
     location: string;
     name: string;
     hotels: Array<{ [key: string]: any }>;
@@ -12,4 +13,7 @@ export interface ILandmark {
     shortInfo: string;
     transitionTime: string;
     workTime: string;
+    isFavorite: boolean;
+    isVisited: boolean;
+    isWantToVisit: boolean;
 }

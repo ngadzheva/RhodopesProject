@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt';
+import { UserRoles } from '../enums/userRoles';
 
 const registerRouter = express.Router();
 
@@ -23,7 +24,7 @@ registerRouter.post('/', (request: express.Request, response: express.Response) 
             });
         }).then(() => {
             bcrypt.hash(password, 10).then(function(hash) {
-                database.insertData(Collections[Collections.users], { userName, password: hash, email, favorite: [], visited: [], wantToVisit: [] });
+                database.insertData(Collections[Collections.users], { userName, password: hash, email, role: UserRoles[UserRoles.user], favorite: [], visited: [], wantToVisit: [] });
                 response.status(200).send({
                     success: true
                 });

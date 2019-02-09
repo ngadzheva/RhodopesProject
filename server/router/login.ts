@@ -10,20 +10,23 @@ import { database } from '../db/database';
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 import { UserController } from '../controllers/user';
-import { TripController } from '../controllers/trip';
+//import { TripsController } from '../controllers/trips';
 import { auth } from '../middleware/auth';
 
 let user: any;
 let userTrips: any;
+let encryptionDone = true;
 
-loginRouter.post('/', (request: express.Request, response: express.Response) => {
+loginRouter.post('/', (request: any, response: express.Response) => {
     const { userName, password } = request.body;
     
     database.queryData(Collections[Collections.users], Fields[Fields.userName], '==', userName)
             .get().then((snapshot: any) => {
                 if(snapshot.docs.length > 0) {
                     snapshot.forEach((doc: any) => {
-                        bcrypt.compare(password, doc.data().password).then(function(res) {
+                        bcrypt.compare(password, doc.data().password).then((res) => {
+                            encryptionDone = !encryptionDone;
+                            
                             if(res) {
                                 const token = jwt.sign({ userName, password }, _secret, { expiresIn: '1h' });
                                 const cookieOptions = {
@@ -33,18 +36,25 @@ loginRouter.post('/', (request: express.Request, response: express.Response) => 
                                 };
 
                                 response.cookie('accessToken', token, cookieOptions);
-                                user = new UserController(userName, password);
+                                user = new UserController(doc.data());
                                 //userTrips = new TripController(userName);
                                 
-                                response.append('Access-Token', token);
-                                response.redirect('/user');
-                            } else {
-                                response.status(400).send({
-                                    success: false,
-                                    message:'Грешна парола'
+                                //response.append('Access-Token', token);
+                                request.session.user = token;
+
+                                response.status(200).send({
+                                    success: true,
+                                    userRole: doc.data().role
                                 });
                             }
-                        });
+
+                            if(encryptionDone && !res) {
+                                response.status(404).send({
+                                    success: false,
+                                    message: 'Грешна парола'
+                                });
+                            }
+                        });  
                     });
                 } else {
                     response.status(404).send({

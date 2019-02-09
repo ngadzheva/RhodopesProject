@@ -10,11 +10,12 @@ import { user, userTrips } from './login';
 import { auth } from '../middleware/auth';
 import * as jwt from 'jsonwebtoken';
 
-userRouter.get('/', (request: express.Request, response: express.Response) => {
+userRouter.get('/', (request: any, response: express.Response) => {
     if (user) {
         //userTrips.loadUserTrips(user.getUserName());
 
-        response.append('Access-Token', request.cookies['accessToken']);
+        //response.append('Access-Token', request.cookies['accessToken']);
+        //let token = request.session.user;
         response.status(200).send({
             success: true
         });
@@ -49,7 +50,7 @@ userRouter.post('/uploadImage', auth, (request: express.Request, response: expre
 
     form.on('file', (field: any, file: any) => {
         image = file.path;
-        user.uploadImage(image);
+        user.uploadImage('users/' + user.getUserName() + '/', image);
     });
     form.on('end', () => {
         setTimeout(() => {
@@ -92,7 +93,7 @@ userRouter.post('/addLandscape', auth, (request: express.Request, response: expr
     }
 });
 
-userRouter.delete('/removeLandscape/:landscape', auth, (request: express.Request, response: express.Response) => {
+userRouter.delete('/removeLandscape/:listType/:landscape', auth, (request: express.Request, response: express.Response) => {
     const listType = request.params.listType;
     const landscape = request.params.landscape;
 

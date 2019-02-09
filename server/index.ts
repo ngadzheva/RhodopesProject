@@ -4,7 +4,8 @@ import { Socket } from 'net';
 import { user } from './router/login';
 import { landscape } from './router/landscape';
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+//const cookieParser = require('cookie-parser');
+const session = require('cookie-session');
 
 const express = require('express');
 
@@ -20,7 +21,15 @@ app.use(cors({
   origin: 'http://localhost:4200',
   credentials: true
 }));
-app.use(cookieParser());
+//app.use(cookieParser());
+app.use(session({
+  name: 'session',
+  secret: "Your secret key"
+  , httpOnly: true
+  , maxAge: 30 * 60 * 1000
+  , secure: false
+  , overwrite: false
+}));
 
 connectRouter(app); 
 

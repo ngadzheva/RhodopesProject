@@ -1,0 +1,42 @@
+<app-admin-sidebar></app-admin-sidebar>
+
+<div id="container">
+    <h1>Редактиране на забележителности</h1>
+
+    <ul>
+        <li>
+            <div class="media border p-3 addLandscape">
+                <div class="media-body">
+                    <a routerLink="addLandscape" class="material-icons add" title="Добави">add</a>
+                </div>
+            </div>  
+        </li>
+        <li *ngFor="let landmark of landmarks">
+            <div *ngIf="landmark.active" class="media border p-3">
+                <div *ngIf="landmark.image" class="mr-3 mt-3 rounded-circle">
+                    <input style="display: none" type="file" (change)="onFileSelected($event, landmark.name)" #fileInput class="btn">
+                    <div (click)="fileInput.click()" [ngStyle]="{'background-image':'url('+ landmark.image +')'}" id="editImage" class="img-container img-fluid img-thumbnail material-icons edit" title="Редактирай">edit</div>
+                    <div *ngIf="selectedFile && selectedLandscape === landmark.name">
+                        <button id="uploadBtn" type="button" (click)="onUpload(landmark.name, landmark.rhodopesPart)">Качи снимка</button> 
+                    </div>
+                </div>
+                <div *ngIf="!landmark.image" class="mr-3 mt-3 rounded-circle">
+                    <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput class="btn">
+                    <div (click)="fileInput.click()" id="addImage" class="img-container img-fluid img-thumbnail material-icons add">add</div>
+                    <div *ngIf="selectedFile">
+                        <button id="uploadBtn" type="button" (click)="onUpload(landmark.name, landmark.rhodopesPart)">Качи снимка</button> 
+                    </div>
+                </div>
+                <div class="media-body">
+                    <h4>
+                        <a routerLink="{{ rhodopesPart }}/{{landmark.name}}">{{ landmark.name }}</a>
+                        <button type="button" (click)="editLandscape(landmark.name, landmark.rhodopesPart)" title="Редактирай" class="btn mdc-icon-button material-icons edit">edit</button>
+                        <button type="button" (click)="deleteLandscape(landmark.name, landmark.rhodopesPart)" title="Изтрий" class="btn mdc-icon-button material-icons delete">delete</button>
+                    </h4>
+                    <p>{{landmark.rhodopesPart === 'west' ? 'Западни' : 'Източни'}} Родопи</p>    
+                    <p>{{ landmark.shortInfo }}</p>  
+                </div>
+            </div>  
+        </li>
+    </ul>
+</div>

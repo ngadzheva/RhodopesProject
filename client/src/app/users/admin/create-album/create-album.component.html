@@ -1,0 +1,27 @@
+<app-admin-sidebar></app-admin-sidebar>
+
+<div id="container">
+  <h1>Създаване на албум</h1>
+  <form name="album" #f="ngForm" class="form-horizontal" role="form">
+      <div *ngIf="planError" id="error">{{planError}}</div>    
+      <div class="form-group">
+        <label for="rhodopesPart">Родопи <span class="required">*</span></label>
+        <select [(ngModel)]="rhodopesPart" class="form-control" name="rhodopesPart">
+          <option value=""></option>
+          <option value="east">Източни Родопи</option>
+          <option value="west">Западни Родопи</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="landscape">Име на забележителност</label>
+        <input type="text" class="form-control" name="landscape" [(ngModel)]="landscape" required/>
+      </div>
+      <div class="form-group">
+        <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput class="btn">
+        <button (click)="fileInput.click()" class="btn">Избери снимки</button>
+      </div>
+      <div class="form-group">
+        <button (click)="createAlbum()" class="btn">Създай албум</button>
+      </div>
+    </form>
+</div>

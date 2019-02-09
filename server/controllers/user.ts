@@ -3,8 +3,8 @@ import { User } from '../models/user';
 export class UserController {
     private _user: User;
 
-    constructor(userName: string, password: string) {
-        this._user = new User(userName, password);
+    constructor(user: { [key: string]: any }) {
+        this._user = new User(user);
     }
 
     public getUserName(): string {
@@ -15,6 +15,10 @@ export class UserController {
         return this._user.getPassword;
     }
 
+    public getUserRole(): string {
+        return this._user.getRole;
+    }
+
     public viewProfileInfo():  { [key: string]: any} {
         const info: { [key: string]: any} = {};
 
@@ -22,6 +26,7 @@ export class UserController {
         info.email = this._user.getEmail;
         info.image = this._user.getImage;
         info.password = this._user.getPassword;
+        info.role= this._user.getRole;
 
         return info;
     }
@@ -35,8 +40,8 @@ export class UserController {
         this._user.updateInfo(userName, email, password);
     }
 
-    public uploadImage(path: string) {
-        this._user.setImage(path);
+    public uploadImage(directory: string, path: string) {
+        this._user.setImage(directory, path);
     }
 
     public getImage(){

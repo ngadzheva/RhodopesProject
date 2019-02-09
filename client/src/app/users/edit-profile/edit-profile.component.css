@@ -45,6 +45,12 @@ button:hover {
     background: #AF9453;
 }
 
+#notMatch {
+    color: rgb(223, 39, 39);
+    font-size: 0.9vw;
+    margin-top: 5px;
+}
+
 #error {
     color: rgb(223, 39, 39);
     font-size: 1vw;

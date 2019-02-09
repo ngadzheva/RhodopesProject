@@ -44,7 +44,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   onUpload() {
-    this.uploadSubscription = this.uploadService.uploadImage(this.selectedFile).subscribe(event => {
+    this.uploadSubscription = this.uploadService.uploadUserImage(this.selectedFile).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         const percentDone = Math.round(100 * event.loaded / event.total);
         console.log(percentDone);

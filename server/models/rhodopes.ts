@@ -30,4 +30,23 @@ export class Rhodopes {
     public getLandscapeInfo(landscape: string): { [key: string]: any } | undefined{
         return this._landscapes.get(landscape); 
     }
+
+    public createLandscape(landscape: { [key: string]: any }) {
+        this._landscapes.set(landscape.name, landscape);
+        database.insertData(Collections[Collections.landscapes], landscape);
+    }
+
+    public uploadImage(folder: string, directory: string, path: string) {
+        database.uploadImage(directory, path).then((data: any) => {
+            (this._landscapes.get(folder) as { [key: string]: any }).image = data;
+
+            database.updateData(Collections[Collections.landscapes], Fields[Fields.name], '==', folder, { image: data });
+        });
+    }
+
+    public deleteLandscape(landscape: string) {
+        (this._landscapes.get(landscape) as { [key: string]: any }).active = false;
+
+        database.updateData(Collections[Collections.landscapes], Fields[Fields.name], '==', landscape, { active: false });
+    }
 }

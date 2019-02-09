@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ILandmark } from '../interfaces/landmark.interface';
 import { IComments } from '../interfaces/comments.interface';
 import { environment } from '../../../../environments/environment';
@@ -10,28 +10,101 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class LandmarksService {
+export class LandmarksService implements OnDestroy {
 
   private socket;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  userFavoriteLandmarks: string[];
+  userVisitedLandmarks: string[];
+  userWantToVisitLandmarks: string[];
+
+  private favoriteLandmarksSubscription: Subscription;
+  private visitedLandmarksSubscription: Subscription;
+  private wantToVisitLandmarksSubscription: Subscription;
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.userFavoriteLandmarks = [];
+    this.userVisitedLandmarks = [];
+    this.userWantToVisitLandmarks = [];
+  }
+
+  ngOnDestroy() {
+    if(this.favoriteLandmarksSubscription) {
+      this.favoriteLandmarksSubscription.unsubscribe();
+    }
+
+    if(this.visitedLandmarksSubscription) {
+      this.visitedLandmarksSubscription.unsubscribe();
+    }
+    
+    if(this.wantToVisitLandmarksSubscription) {
+      this.wantToVisitLandmarksSubscription.unsubscribe();
+    }
+
+    this.userFavoriteLandmarks = [];
+    this.userVisitedLandmarks = [];
+    this.userWantToVisitLandmarks = [];
+  }
 
   getLandmarks(rhodopesPart: string) {
-    return this.http.get<ILandmark[]>(`${environment.server}/landscapes/${rhodopesPart}`);
+    if(rhodopesPart === '') {
+      return this.http.get<ILandmark[]>(`${environment.server}/landscapes`);
+    } else {
+      return this.http.get<ILandmark[]>(`${environment.server}/landscapes/${rhodopesPart}`);
+    }
+  }
+
+  editLandmark(rhodopesPart: string, landscape: string, newData: { [key: string]: any }) {
+    return this.http.put<{ [key: string]: any }>(`${environment.server}/landscapes/${rhodopesPart}/${landscape}`, newData);
+  }
+
+  getUserFavoriteLandmarks() {
+    this.favoriteLandmarksSubscription = this.http.get<{ [key: string]: any }>(`${environment.server}/user/favorite`).subscribe(landmarks => {
+      if(landmarks.success) {
+        this.userFavoriteLandmarks = landmarks.data;
+      }
+    });
+  }
+
+  getUserVisitedLandmarks() {
+    this.visitedLandmarksSubscription = this.http.get<{ [key: string]: any }>(`${environment.server}/user/visited`).subscribe(landmarks => {
+      if(landmarks.success) {
+        this.userVisitedLandmarks = landmarks.data;
+      }
+    });
+  }
+
+  getUserWantToVisitLandmarks() {
+    this.wantToVisitLandmarksSubscription = this.http.get<{ [key: string]: any }>(`${environment.server}/user/wantToVisit`).subscribe(landmarks => {
+      if(landmarks.success) {
+        this.userWantToVisitLandmarks = landmarks.data;
+      }
+    });
+  }
+
+  removeUserLandmark(landscape: string, listType: string) {
+    return this.http.delete<{ [key: string]: any }>(`${environment.server}/user/removeLandscape/${listType}/${landscape}`);
   }
 
   getLandmarkInfo(rhodopesPart: string, landscape: string){
     return this.http.get<ILandmark>(`${environment.server}/landscapes/${rhodopesPart}/${landscape}`);
   }
 
-  addLandscape(rhodopesPart: string, landscape: string, listType: string){
+  addLandscape(landscape: string, listType: string){
     const body = {
       listType, 
-      landscape, 
-      rhodopesPart
+      landscape
     }
     
     return this.http.post<{ [key: string]: any }>(`${environment.server}/user/addLandscape`, JSON.stringify(body));
+  }
+
+  createLandscape(landscapeInfo: { [key: string]: any }) {
+    return this.http.post<{ [key: string]: any }>(`${environment.server}/landscapes/createLandscape`, landscapeInfo);
+  }
+
+  removeLandscape(rhodopesPart: string, landscape: string){    
+    return this.http.delete<{ [key: string]: any }>(`${environment.server}/landscapes/${rhodopesPart}/${landscape}`);
   }
 
   getComments(rhodopesPart: string, landscape: string){

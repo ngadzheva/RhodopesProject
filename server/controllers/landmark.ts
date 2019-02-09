@@ -27,6 +27,10 @@ export class LandmarkController {
         return info;
     }
 
+    public editLandscape(newData: { [key: string]: any }) {
+        this._landscape.updateLandscapeData(newData);
+    }
+
     public vote(voteType: string): void {
         this._landscape.setRating = voteType === 'like' ? this._landscape.getRating + 1 : this._landscape.getRating - 1;
     }
@@ -64,10 +68,6 @@ export class LandmarkController {
             }
         })
         return comments;
-    }
-
-    public getRating(): number {
-        return this._landscape.getRating;
     }
 
     public getRating(): number {

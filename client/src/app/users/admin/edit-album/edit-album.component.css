@@ -1,0 +1,64 @@
+#container {
+    margin-left: 200px;
+}
+
+h1 {
+    font-family: 'EB Garamond';
+    color: #AF9453;
+    font-size: 4vw;
+    text-align: center;
+    position: relative;
+    padding-top: 100px;
+    margin-bottom: 40px;
+}
+
+.row {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-fluid {
+  width: 300px;
+  height: 200px;
+  border: 4px solid #eee;
+  box-shadow:#555 1px 1px 8px 1px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  background-position: center;
+  background-size: cover;
+}
+
+.add, .delete {
+    text-align: center;
+    padding-top: 50px;
+    font-size: 80px;
+    color: #eee;
+}
+
+.add {
+    border-style: dashed;
+}
+
+.delete {
+    opacity: 0.7;
+}
+
+.delete:hover {
+    opacity: 0.5;
+    color: #AF9453;
+}
+
+button {
+    width: 150px;
+    background: rgba(175, 147, 83, 0.685);
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    color: white;
+}
+
+button:hover {
+    background: #AF9453;
+}

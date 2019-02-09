@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck} from '@angular/core';
 import { LandmarksService } from '../shared/services/landmarks.service';
 import { Router } from '@angular/router';
 import { ILandmark } from '../shared/interfaces/landmark.interface';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './landmark.component.html',
   styleUrls: ['./landmark.component.css']
 })
-export class LandmarkComponent implements OnInit, OnDestroy {
+export class LandmarkComponent implements OnInit, OnDestroy, DoCheck {
   landscapeInfo: ILandmark;
   rhodopesPart: string;
   landscape: string;
@@ -26,6 +26,7 @@ export class LandmarkComponent implements OnInit, OnDestroy {
   postCommentSubscription: Subscription;
   landmarkSubscription: Subscription;
   addLandscapeSubscription: Subscription;
+  removeLandscapeSubscription: Subscription;
   errorMessage: string;
 
   constructor(private landmarksService: LandmarksService, private router: Router) { 
@@ -48,6 +49,22 @@ export class LandmarkComponent implements OnInit, OnDestroy {
       .subscribe(landscapeInfo => this.landscapeInfo = landscapeInfo);
   }
 
+  ngDoCheck() {
+    if(this.landscapeInfo) {
+      if(this.landmarksService.userFavoriteLandmarks.includes(this.landscapeInfo.name)) {
+        this.favorite = true;
+      }
+
+      if(this.landmarksService.userVisitedLandmarks.includes(this.landscapeInfo.name)) {
+        this.visited = true;
+      }
+
+      if(this.landmarksService.userWantToVisitLandmarks.includes(this.landscapeInfo.name)) {
+        this.wantToVisit = true;
+      }
+    }
+  }
+
   ngOnDestroy() {
     if(this.voteSubscription) {
       this.voteSubscription.unsubscribe();
@@ -65,6 +82,10 @@ export class LandmarkComponent implements OnInit, OnDestroy {
     
     if(this.addLandscapeSubscription) {
       this.addLandscapeSubscription.unsubscribe();
+    }
+
+    if(this.removeLandscapeSubscription) {
+      this.removeLandscapeSubscription.unsubscribe();
     }
   }
 
@@ -85,22 +106,46 @@ export class LandmarkComponent implements OnInit, OnDestroy {
   }
 
   addLandscape(landscape:string, listType: string){
-    this.addLandscapeSubscription = this.landmarksService.addLandscape(this.rhodopesPart, landscape, listType).subscribe(response => {
+    this.addLandscapeSubscription = this.landmarksService.addLandscape(landscape, listType).subscribe(response => {
       if(response.success){
         this.errorMessage = '';
 
         if(listType === 'favorite'){
           this.favorite = true;
+          this.landmarksService.userFavoriteLandmarks.push(landscape);
         } else if(listType === 'visited'){
           this.visited = true;
+          this.landmarksService.userVisitedLandmarks.push(landscape);
         } else if(listType === 'wantToVisit'){
           this.wantToVisit = true;
+          this.landmarksService.userWantToVisitLandmarks.push(landscape);
         }
-      } else {
-        this.router.navigateByUrl('/auth/login');
-      }
+      } 
     }, error => {
       this.errorMessage = error.error.message;
+      this.router.navigateByUrl('/auth/login');
+    });
+  }
+
+  removeLandscape(landscape:string, listType: string){
+    this.removeLandscapeSubscription = this.landmarksService.removeUserLandmark(landscape, listType).subscribe(response => {
+      if(response.success){
+        this.errorMessage = '';
+
+        if(listType === 'favorite'){
+          this.favorite = false;
+          this.landmarksService.userFavoriteLandmarks = response.data;
+        } else if(listType === 'visited'){
+          this.visited = false;
+          this.landmarksService.userVisitedLandmarks = response.data;
+        } else if(listType === 'wantToVisit'){
+          this.wantToVisit = false;
+          this.landmarksService.userWantToVisitLandmarks = response.data;
+        }
+      } 
+    }, error => {
+      this.errorMessage = error.error.message;
+      this.router.navigateByUrl('/auth/login');
     });
   }
 

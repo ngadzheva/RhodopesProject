@@ -34,12 +34,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit(){
     this.loginSubscription = this.authService.login(this.user.userName, this.user.password).subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
         this.isSubmitted = true;
         this.cookieService.set('Log-Cookie', 'loggedin');
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/user/info');
+        return;
       } 
     }, error => {
       this.errorMessage = error.error.message;
-    });      
+      return;
+    });    
+
+    //this.errorMessage = 'Грешна парола.';
   }
 }
