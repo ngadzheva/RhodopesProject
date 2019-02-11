@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class UserTripsComponent implements OnInit, OnDestroy {
 
   trips: ITrip[];
+  errorMessage: string;
   tripsSubscription: Subscription;
 
   constructor(private userService: UserService, private router: Router) { }
@@ -19,10 +20,11 @@ export class UserTripsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tripsSubscription = this.userService.getTrips().subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
         this.trips = response.data;
-      } else {
-        this.router.navigateByUrl('/login');
-      }
+      } 
+    }, error => {
+      this.errorMessage = error.error.message;
     });
   }
 

@@ -29,6 +29,7 @@ export class TripPlannerComponent implements OnInit, OnDestroy, DoCheck {
   landmarksSubscription: Subscription;
   tripSubscription: Subscription;
   planError: string;
+  errorMessage: string;
 
   constructor(private mapsService: MapsService, private tripPlannerService: TripPlannerService, private landmarksService: LandmarksService, private calendar: NgbCalendar, private router: Router) {
     this.selectedLandscapes = new Array();
@@ -38,7 +39,12 @@ export class TripPlannerComponent implements OnInit, OnDestroy, DoCheck {
    }
 
   ngOnInit() {
-    this.mapSubscription = this.mapsService.getLocation().subscribe(location => this.startPoint = location.city);
+    this.mapSubscription = this.mapsService.getLocation().subscribe(location => {
+      this.errorMessage = '';
+      this.startPoint = location.city
+    }, error => {
+      this.errorMessage = error.error.message;
+    });
   }
 
   ngDoCheck() {
@@ -67,7 +73,12 @@ export class TripPlannerComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   loadLandscapes(rhodopesPart: string){
-    this.landmarksSubscription = this.landmarksService.getLandmarks(rhodopesPart).subscribe(landmarks => this.landmarks = landmarks);
+    this.landmarksSubscription = this.landmarksService.getLandmarks(rhodopesPart).subscribe(landmarks => {
+      this.errorMessage = '';
+      this.landmarks = landmarks
+    }, error => {
+      this.errorMessage = error.error.message;
+    });
   }
 
   loadLandscape(landscape: string){
@@ -131,11 +142,13 @@ export class TripPlannerComponent implements OnInit, OnDestroy, DoCheck {
   makePlan(){    
     this.tripSubscription = this.tripPlannerService.planTrip(this.startPoint, this.tripName, this.plan).subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
         this.isSubmitted = true;
         this.router.navigateByUrl('/user/plannedTrips');
-      } else {
-        this.router.navigateByUrl('/auth/login');
-      }
+      } 
+    }, error => {
+      this.errorMessage = error.error.message;
+      this.router.navigateByUrl('/auth/login');
     });
   }
   

@@ -26,7 +26,12 @@ export class EditProfileComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    this.userInfoSubscription = this.userService.getUserInfo().subscribe(userInfo => this.user = userInfo.data);
+    this.userInfoSubscription = this.userService.getUserInfo().subscribe(userInfo => {
+      this.errorMessage = '';
+      this.user = userInfo.data;
+    }, error => {
+      this.errorMessage = error.error.message;
+    });
   }
 
   ngOnDestroy() {

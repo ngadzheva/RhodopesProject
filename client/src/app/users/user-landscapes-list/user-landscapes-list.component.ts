@@ -13,6 +13,7 @@ export class UserLandscapesListComponent implements OnInit, DoCheck, OnDestroy {
   landscapes: string[];
   listType: string;
   header: string;
+  errorMessage: string;
   landmarksSubscription: Subscription;
   removeSubscription: Subscription;
 
@@ -41,10 +42,11 @@ export class UserLandscapesListComponent implements OnInit, DoCheck, OnDestroy {
     
     this.landmarksSubscription = this.userService.getLandscapes(this.listType).subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
         this.landscapes = response.data;
-      } else {
-        this.router.navigateByUrl('/login');
-      }
+      } 
+    }, error => {
+      this.errorMessage = error.error.message;
     });
     
     if(this.listType === 'favorite'){
@@ -59,10 +61,11 @@ export class UserLandscapesListComponent implements OnInit, DoCheck, OnDestroy {
   deleteLandscape(landscape: string){
     this.removeSubscription = this.userService.removeLandscape(this.listType, landscape).subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
         this.landscapes = response.data;
       } 
     }, error => {
-      this.router.navigateByUrl('/login');
+      this.errorMessage = error.error.message;
     });
   }
 }

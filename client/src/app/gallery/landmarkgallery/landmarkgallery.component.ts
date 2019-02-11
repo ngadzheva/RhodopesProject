@@ -13,6 +13,7 @@ export class LandmarkGalleryComponent implements OnInit, OnDestroy {
   landscapeGallery: String[];
   rhodopesPart: string;
   landscape: String;
+  errorMessage: string;
   gallerySubscription: Subscription;
 
   constructor(private galleryService: GalleryService, private router: Router) { }
@@ -23,8 +24,11 @@ export class LandmarkGalleryComponent implements OnInit, OnDestroy {
 
     this.gallerySubscription = this.galleryService.getLandscapeGallery(this.rhodopesPart, this.landscape)
       .subscribe(landscapeGallery => {
+        this.errorMessage = '';
         this.landscape = landscapeGallery.landscape;
         this.landscapeGallery = landscapeGallery.images;
+      }, error => {
+        this.errorMessage = error.error.message;
       });
   }
 

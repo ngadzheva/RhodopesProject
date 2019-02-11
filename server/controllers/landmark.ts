@@ -53,9 +53,9 @@ export class LandmarkController {
             const date1 = new Date(comment1.datePublished);
             const date2 = new Date(comments2.datePublished);
             
-            if (date1 > date2) {
+            if (date1 < date2) {
                 return 1;
-            } else if (date1 < date2) {
+            } else if (date1 > date2) {
                 return -1;
             } else {
                 if(comment1.user < comments2.user) {

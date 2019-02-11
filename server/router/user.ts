@@ -1,26 +1,13 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt';
-const cookieParser = require('cookie-parser');
+
+import { user } from './login';
+import { auth } from '../middleware/auth';
+import { Folders } from '../enums/folders';
+
 const IncomingForm = require('formidable').IncomingForm;
 
 const userRouter = express.Router();
-userRouter.use(cookieParser());
-
-import { user, userTrips } from './login';
-import { auth } from '../middleware/auth';
-import * as jwt from 'jsonwebtoken';
-
-userRouter.get('/', (request: any, response: express.Response) => {
-    if (user) {
-        //userTrips.loadUserTrips(user.getUserName());
-
-        //response.append('Access-Token', request.cookies['accessToken']);
-        //let token = request.session.user;
-        response.status(200).send({
-            success: true
-        });
-    }
-});
 
 userRouter.get('/info', auth, (request: express.Request, response: express.Response) => {
     response.status(200).send({ success: true, data: user.viewProfileInfo() });
@@ -50,7 +37,7 @@ userRouter.post('/uploadImage', auth, (request: express.Request, response: expre
 
     form.on('file', (field: any, file: any) => {
         image = file.path;
-        user.uploadImage('users/' + user.getUserName() + '/', image);
+        user.uploadImage(Folders[Folders.users] + '/' + user.getUserName() + '/', image);
     });
     form.on('end', () => {
         setTimeout(() => {

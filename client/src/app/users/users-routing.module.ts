@@ -7,6 +7,7 @@ import { UserTripsComponent } from './user-trips/user-trips.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 import { ConfirmDeactivateGuard } from '../shared/guards/can-deactivate-guard.service';
+import { CanActivateAdminGuard } from './shared/guards/can-activate-admin-guard.service';
 
 const routes: Routes = [
   {
@@ -35,7 +36,10 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: './admin/admin.module#AdminModule'
+    loadChildren: './admin/admin.module#AdminModule',
+    canActivate: [
+      CanActivateAdminGuard
+    ]
   }
 ]
 

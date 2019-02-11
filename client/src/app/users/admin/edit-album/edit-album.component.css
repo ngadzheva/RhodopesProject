@@ -2,6 +2,12 @@
     margin-left: 200px;
 }
 
+#error {
+    color: red;
+    text-align: center;
+    font-size: 3vw;
+}
+
 h1 {
     font-family: 'EB Garamond';
     color: #AF9453;

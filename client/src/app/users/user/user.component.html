@@ -2,8 +2,12 @@
 <app-admin-sidebar *ngIf="user.role === 'admin'"></app-admin-sidebar>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-4 img">
+    <div *ngIf="errorMessage" id="error">{{errorMessage}}</div>
+
+    <div *ngIf="!errorMessage" class="row">
+        <div *ngIf="uploadError" id="uploadError">{{uploadError}}</div>
+
+        <div *ngIf="!uploadError" class="col-md-4 img">
             <img *ngIf="!user.image" src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"  alt="" class="img-rounded">
             <img *ngIf="user.image" src="{{user.image}}"  alt="" class="img-rounded">
             <input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput class="btn">

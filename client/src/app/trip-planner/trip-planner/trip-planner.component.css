@@ -5,6 +5,12 @@
     margin-left: auto;
 }
 
+#error {
+    color: red;
+    text-align: center;
+    font-size: 3vw;
+}
+
 h1, h4 {
     font-family: 'EB Garamond';
     text-align: center;

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UploadService } from '../../shared/services/upload.service';
-import { GalleryService } from '../../../gallery/shared/services/gallery.service';
 
 @Component({
   selector: 'app-create-album',
@@ -18,9 +17,10 @@ export class CreateAlbumComponent implements OnInit, OnDestroy {
   landscape: string;
   rhodopesPart: any;
   images: File;
+  errorMessage: string;
   createSubscription: Subscription;
 
-  constructor(private galleryService: GalleryService, private uploadService: UploadService, private router: Router) { 
+  constructor(private uploadService: UploadService, private router: Router) { 
     this.isSubmitted = false;
   }
 
@@ -44,11 +44,13 @@ export class CreateAlbumComponent implements OnInit, OnDestroy {
         console.log(percentDone);
       } else if (event instanceof HttpResponse) {
         if(event.body.success) {
+          this.errorMessage = '';
           this.isSubmitted = true;
           this.router.navigateByUrl('user/admin/editGallery');
         }
       }
+    }, error => {
+      this.errorMessage = error.error.message;
     });
   }
-
 }

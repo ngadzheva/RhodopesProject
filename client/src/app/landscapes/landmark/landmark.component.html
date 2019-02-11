@@ -1,4 +1,7 @@
-<div class="content">
+<div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
+<div *ngIf="landscapeActionError" class="error">{{landscapeActionError}}</div>
+
+<div *ngIf="!errorMessage" class="content">
     <div *ngIf="commentsOpened" id="commentsOverlay" class="row comments">
         <div (click)="closeComments()" class="closebtn" title="Затвори коментарите">x</div>
         <div id="commentContent" class="row commentsContent">

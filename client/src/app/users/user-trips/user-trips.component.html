@@ -2,6 +2,8 @@
 
 <h1>Планирани пътувания</h1>
 
+<div *ngIf="errorMessage" id="error">{{errorMessage}}</div>
+
 <ul>
   <li *ngFor="let trip of trips">
     <div class="media border p-3">

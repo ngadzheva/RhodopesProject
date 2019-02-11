@@ -2,6 +2,8 @@
 
 <h1>{{ header }}</h1>
 
+<div *ngIf="errorMessage" id="error">{{errorMessage}}</div>
+
 <ul>
   <li *ngFor="let landscape of landscapes">
     <div class="media border p-3">

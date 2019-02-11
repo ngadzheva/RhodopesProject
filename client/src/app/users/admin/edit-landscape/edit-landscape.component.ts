@@ -42,7 +42,12 @@ export class EditLandscapeComponent implements OnInit, OnDestroy, DoCheck {
       this.landscape = this.router.url.slice(this.router.url.lastIndexOf('/') + 1);
 
       this.landmarkSubscription = this.landmarksService.getLandmarkInfo(this.rhodopesPart, this.landscape)
-        .subscribe(landscapeInfo => this.landscapeInfo = landscapeInfo);
+        .subscribe(landscapeInfo => {
+          this.errorMessage = '';
+          this.landscapeInfo = landscapeInfo
+        }, error => {
+          this.errorMessage = error.error.message;
+        });
     }
   }
 
@@ -111,6 +116,6 @@ export class EditLandscapeComponent implements OnInit, OnDestroy, DoCheck {
       }
     }, error => {
       this.errorMessage = error.error.message;
-    })
+    });
   }
 }

@@ -14,6 +14,8 @@ import { UserService } from './shared/services/user.service';
 import { UploadService } from './shared/services/upload.service';
 import { AdminSidebarComponent } from './shared/components/admin-sidebar/admin-sidebar.component';
 
+import { CanActivateAdminGuard } from './shared/guards/can-activate-admin-guard.service';
+
 @NgModule({
   declarations: [
     UserComponent,
@@ -31,7 +33,8 @@ import { AdminSidebarComponent } from './shared/components/admin-sidebar/admin-s
   ],
   providers: [
     UserService,
-    UploadService
+    UploadService,
+    CanActivateAdminGuard
   ],
   exports: [
     AdminSidebarComponent

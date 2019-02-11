@@ -43,6 +43,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   onSubmit(){
     this.signupSubsrciption = this.authService.signup(this.user.userName, this.user.password, this.user.email).subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
         this.isSubmitted = true;
         this.router.navigateByUrl('/auth/login');
       } 

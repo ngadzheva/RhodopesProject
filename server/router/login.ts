@@ -2,20 +2,18 @@ import * as express from 'express';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
-const loginRouter = express.Router();
-const logoutRouter = express.Router();
-const _secret = 'secret';
-
 import { database } from '../db/database';
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 import { UserController } from '../controllers/user';
-//import { TripsController } from '../controllers/trips';
 import { auth } from '../middleware/auth';
+import { config } from '../config/config';
+
+const loginRouter = express.Router();
+const logoutRouter = express.Router();
 
 let user: any;
-let userTrips: any;
-let encryptionDone = true;
+let decryptionDone = true;
 
 loginRouter.post('/', (request: any, response: express.Response) => {
     const { userName, password } = request.body;
@@ -25,30 +23,21 @@ loginRouter.post('/', (request: any, response: express.Response) => {
                 if(snapshot.docs.length > 0) {
                     snapshot.forEach((doc: any) => {
                         bcrypt.compare(password, doc.data().password).then((res) => {
-                            encryptionDone = !encryptionDone;
+                            decryptionDone = !decryptionDone;
                             
                             if(res) {
-                                const token = jwt.sign({ userName, password }, _secret, { expiresIn: '1h' });
-                                const cookieOptions = {
-                                    httpOnly: true,
-                                    path: '/',
-                                    domain: 'localhost'
-                                };
+                                const token = jwt.sign({ userName, password, role: doc.data().role }, config.jwtKey, { expiresIn: '1h' });
 
-                                response.cookie('accessToken', token, cookieOptions);
                                 user = new UserController(doc.data());
-                                //userTrips = new TripController(userName);
-                                
-                                //response.append('Access-Token', token);
-                                request.session.user = token;
 
                                 response.status(200).send({
                                     success: true,
-                                    userRole: doc.data().role
+                                    userRole: doc.data().role,
+                                    token
                                 });
                             }
 
-                            if(encryptionDone && !res) {
+                            if(decryptionDone && !res) {
                                 response.status(404).send({
                                     success: false,
                                     message: 'Грешна парола'
@@ -68,9 +57,8 @@ loginRouter.post('/', (request: any, response: express.Response) => {
 
 logoutRouter.post("/", auth, (request: express.Request, response: express.Response) => {
     user = null;
-    //userTrips = null;
 
     response.status(200).send({ success: true });
 });
 
-export { loginRouter, logoutRouter, user, userTrips };
+export { loginRouter, logoutRouter, user };

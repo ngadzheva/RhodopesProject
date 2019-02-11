@@ -1,12 +1,10 @@
 import * as express from 'express';
 
 import { admin } from '../middleware/auth';
-
-const galleryRouter = express.Router();
+import { GalleryController } from '../controllers/gallery';
 
 const IncomingForm = require('formidable').IncomingForm;
-
-import { GalleryController } from '../controllers/gallery';
+const galleryRouter = express.Router();
 
 const west = new GalleryController('west');
 const east = new GalleryController('east');

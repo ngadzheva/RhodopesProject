@@ -5,7 +5,6 @@ import { ILandmark } from '../interfaces/landmark.interface';
 import { IComments } from '../interfaces/comments.interface';
 import { environment } from '../../../../environments/environment';
 import * as io from 'socket.io-client';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class LandmarksService implements OnDestroy {
   private visitedLandmarksSubscription: Subscription;
   private wantToVisitLandmarksSubscription: Subscription;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
     this.userFavoriteLandmarks = [];
     this.userVisitedLandmarks = [];
     this.userWantToVisitLandmarks = [];
@@ -96,7 +95,7 @@ export class LandmarksService implements OnDestroy {
       landscape
     }
     
-    return this.http.post<{ [key: string]: any }>(`${environment.server}/user/addLandscape`, JSON.stringify(body));
+    return this.http.post<{ [key: string]: any }>(`${environment.server}/user/addLandscape`, body);
   }
 
   createLandscape(landscapeInfo: { [key: string]: any }) {

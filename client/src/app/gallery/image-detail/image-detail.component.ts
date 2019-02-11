@@ -13,6 +13,7 @@ export class ImageDetailComponent implements OnInit {
   rhodopesPart: string;
   landscape: string;
   imageURL: string;
+  errorMessage: string;
 
   constructor(private imageService: ImageService, private router: Router) { }
 
@@ -23,7 +24,11 @@ export class ImageDetailComponent implements OnInit {
     const regex = /DSC.*\.JPG/;
     this.image = regex.exec(url[4]).toString();
 
-    this.imageService.getImage(this.rhodopesPart, this.landscape, this.image).then(url => this.imageURL = url);
+    this.imageService.getImage(this.rhodopesPart, this.landscape, this.image).then(url => {
+      this.errorMessage = '';
+      this.imageURL = url
+    }, error => {
+      this.errorMessage = error.error.message;
+    });
   }
-
 }

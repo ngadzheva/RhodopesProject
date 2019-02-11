@@ -1,4 +1,5 @@
 import { Gallery } from '../models/gallery';
+import { Folders } from '../enums/folders';
 
 export class GalleryController {
     private _gallery: Gallery;
@@ -46,12 +47,12 @@ export class GalleryController {
     }
 
     public createAlbum(parentFolder: string, folder: string, imagePath: string) {
-        let currentImageDirectory = 'rhodopes/' + parentFolder + '/' + folder + '/';
+        let currentImageDirectory = Folders[Folders.rhodopes] + '/' + parentFolder + '/' + folder + '/';
         this._gallery.uploadImage(folder, currentImageDirectory, imagePath);
     }
 
     public uploadImage(directory: string, path: string) {
-        const fullDirectoryPath = 'rhodopes/' + this._rhodopesPart + '/' + directory + '/';
+        const fullDirectoryPath = Folders[Folders.rhodopes] + '/' + this._rhodopesPart + '/' + directory + '/';
         this._gallery.uploadImage(directory, fullDirectoryPath, path);
     }
 

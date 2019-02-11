@@ -14,6 +14,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
   user: { [key: string]: string };
   selectedFile: File;
+  errorMessage: string;
+  uploadError: string;
   userInfoSubscription: Subscription;
   uploadSubscription: Subscription;
 
@@ -24,10 +26,12 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userInfoSubscription = this.userService.getUserInfo().subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
         this.user = response.data;
-      } else {
+      } 
+    }, error => {
+      this.errorMessage = error.error.message;
         this.router.navigateByUrl('/login');
-      }
     });
   }
 
@@ -50,10 +54,13 @@ export class UserComponent implements OnInit, OnDestroy {
         console.log(percentDone);
       } else if (event instanceof HttpResponse) {
         if(event.body.success) {
+          this.uploadError = '';
           this.user.image = event.body.data;
           this.selectedFile = null;
         }
       }
+    }, error => {
+      this.uploadError = error.error.message;
     });
   }
 }

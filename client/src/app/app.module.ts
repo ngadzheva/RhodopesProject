@@ -52,11 +52,11 @@ import { ConfirmDeactivateGuard } from './shared/guards/can-deactivate-guard.ser
         return false;
       }
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HeadersInterceptor,
-    //   multi: true
-    // }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeadersInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

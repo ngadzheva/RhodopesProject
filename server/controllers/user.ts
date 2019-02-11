@@ -118,9 +118,9 @@ export class UserController {
             const date1 = new Date(trip1.plan[0].date);
             const date2 = new Date(trip2.plan[0].date);
             
-            if (date1 > date2) {
+            if (date1 < date2) {
                 return 1;
-            } else if (date1 < date2) {
+            } else if (date1 > date2) {
                 return -1;
             } else {
                 if(trip1.name < trip2.name) {

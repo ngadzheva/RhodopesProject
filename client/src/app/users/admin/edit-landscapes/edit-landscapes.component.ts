@@ -16,6 +16,7 @@ export class EditLandscapesComponent implements OnInit, OnDestroy {
   landmarks: ILandmark[];
   selectedFile: File;
   selectedLandscape: string;
+  errorMessage: string;
   landmarkSubscription: Subscription;
   removeSubscription: Subscription;
   uploadSubscription: Subscription;
@@ -46,16 +47,24 @@ export class EditLandscapesComponent implements OnInit, OnDestroy {
         console.log(percentDone);
       } else if (event instanceof HttpResponse) {
         if(event.body.success) {
+          this.errorMessage = '';
           this.landmarks = event.body.data;
           this.selectedFile = null;
         }
       }
+    }, error => {
+      this.errorMessage = error.error.message;
     });
   }
 
   loadLandscapes() {
     this.landmarkSubscription = this.landmarksService.getLandmarks('')
-        .subscribe(landmarks => this.landmarks = landmarks);
+        .subscribe(landmarks => {
+          this.errorMessage = '';
+          this.landmarks = landmarks
+        }, error => {
+          this.errorMessage = error.error.message;
+        });
   }
 
   editLandscape(landscape: string, rhodopesPart: string){
@@ -65,6 +74,8 @@ export class EditLandscapesComponent implements OnInit, OnDestroy {
   deleteLandscape(landscape: string, rhodopesPart: string){
     this.removeSubscription = this.landmarksService.removeLandscape(rhodopesPart, landscape).subscribe(response => {
       if(response.success){
+        this.errorMessage = '';
+        
         this.landmarks.forEach((landmark, index) => {
           if(landmark.name === landscape){
             landmark.active = false;
@@ -72,7 +83,7 @@ export class EditLandscapesComponent implements OnInit, OnDestroy {
         });
       } 
     }, error => {
-      this.router.navigateByUrl('/login');
+      this.errorMessage = error.error.message;
     });
   }
 }

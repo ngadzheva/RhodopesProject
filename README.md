@@ -18,8 +18,9 @@ Oсновните задачи на тази система са да:
   <li> JavaScript (ES6)</li>
   <li> Angular</li>
   <li> Express</li>
-  <li>Socket.io</li>
-  <li> Firebase</li>
+  <li> Socket.io </li>
+  <li> Firebase </li>
+  <li> JWT </li>
   <li> HTML</li>
   <li> CSS</li>
   <li> Bootstrap</li>

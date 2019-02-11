@@ -16,6 +16,7 @@ export class EditAlbumComponent implements OnInit {
   rhodopesPart: string;
   landscape: string;
   selectedFile: File;
+  errorMessage: string;
   gallerySubscription: Subscription;
   deleteImageSubscription: Subscription;
   uploadSubscription: Subscription;
@@ -28,8 +29,11 @@ export class EditAlbumComponent implements OnInit {
 
     this.gallerySubscription = this.galleryService.getLandscapeGallery(this.rhodopesPart, this.landscape)
       .subscribe(landscapeGallery => {
+        this.errorMessage = '';
         this.landscape = landscapeGallery.landscape;
         this.landscapeGallery = landscapeGallery.images;
+      }, error => {
+        this.errorMessage = error.error.message;
       });
   }
 
@@ -44,10 +48,11 @@ export class EditAlbumComponent implements OnInit {
   deleteImage(image: string) {
     this.deleteImageSubscription = this.galleryService.deleteImage(this.rhodopesPart, this.landscape, image.split('=')[2]).subscribe(response => {
       if(response.success) {
+        this.errorMessage = '';
         this.landscapeGallery = response.data.images;
       }
     }, error => {
-      this.router.navigateByUrl('/login');
+      this.errorMessage = error.error.message;
     });
   }
 
@@ -62,10 +67,13 @@ export class EditAlbumComponent implements OnInit {
         console.log(percentDone);
       } else if (event instanceof HttpResponse) {
         if(event.body.success) {
+          this.errorMessage = '';
           this.landscapeGallery = event.body.data;
           this.selectedFile = null;
         }
       }
+    }, error => {
+      this.errorMessage = error.error.message;
     });
   }
 }

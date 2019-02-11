@@ -9,6 +9,6 @@ export class CanActivateAdminGuard implements CanActivate {
   constructor(private cookieService: CookieService) {}
 
   canActivate() {
-    return this.cookieService.check('Log-Cookie');
+    return this.cookieService.get('Role-Cookie') === 'admin';
   }
 }

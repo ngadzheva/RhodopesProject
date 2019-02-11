@@ -2,7 +2,6 @@ import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
 import { database } from '../db/database';
 import { Trips } from './trips';
-import { UserRoles } from '../enums/userRoles';
 
 export class User {
     private _email: string;

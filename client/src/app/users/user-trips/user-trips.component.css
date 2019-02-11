@@ -17,6 +17,12 @@ h4 {
     font-weight: bold;
 }
 
+#error {
+    color: red;
+    text-align: center;
+    font-size: 3vw;
+}
+
 .media {
     width: 50%;
     margin-left: auto;

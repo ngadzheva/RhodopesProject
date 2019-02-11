@@ -1,6 +1,8 @@
 <h1>Забележителности</h1>
 
-<div class="row">
+<div *ngIf="errorMessage" id="error">{{errorMessage}}</div>
+
+<div *ngIf="!errorMessage" class="row">
   <div class="col">
     <a routerLink="east"><img src="{{eastImage}}" class="img-fluid rounded-circle mx-auto d-block"/></a>
     <h3><a routerLink="east">Източни Родопи</a></h3>

@@ -1,12 +1,12 @@
 import * as express from 'express';
 import * as bcrypt from 'bcrypt';
-import { UserRoles } from '../enums/userRoles';
-
-const registerRouter = express.Router();
 
 import { database } from '../db/database';
+import { UserRoles } from '../enums/userRoles';
 import { Collections } from '../enums/collections';
 import { Fields } from '../enums/fields';
+
+const registerRouter = express.Router();
 
 registerRouter.post('/', (request: express.Request, response: express.Response) => {
     const { userName, password, email } = request.body;
@@ -29,8 +29,7 @@ registerRouter.post('/', (request: express.Request, response: express.Response) 
                     success: true
                 });
             });
-        });
-    
+        });   
 });
 
 export { registerRouter }

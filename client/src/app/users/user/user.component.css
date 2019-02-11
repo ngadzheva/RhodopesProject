@@ -4,6 +4,19 @@
     padding-top: 100px;
 }
 
+#error,#uploadError {
+    color: red;
+    text-align: center;
+}
+  
+#error {
+    font-size: 3vw;
+}
+
+#uploadError {
+    size: 2vw;
+}
+
 img{
     border-radius: 50%;
     margin-left: 125px;

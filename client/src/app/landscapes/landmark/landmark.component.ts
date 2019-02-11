@@ -28,6 +28,7 @@ export class LandmarkComponent implements OnInit, OnDestroy, DoCheck {
   addLandscapeSubscription: Subscription;
   removeLandscapeSubscription: Subscription;
   errorMessage: string;
+  landscapeActionError: string;
 
   constructor(private landmarksService: LandmarksService, private router: Router) { 
     this.commentsOpened = false;
@@ -39,14 +40,30 @@ export class LandmarkComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   ngOnInit() {
-    this.voteSubscription = this.landmarksService.voteReceived().subscribe(vote => this.landscapeInfo.rating = vote.data );
-    this.postCommentSubscription = this.landmarksService.commentReceived().subscribe(comment => this.comments.push(comment.data));
+    this.voteSubscription = this.landmarksService.voteReceived().subscribe(vote => {
+      this.errorMessage = '';
+      this.landscapeInfo.rating = vote.data
+     }, error => {
+       this.errorMessage = error.error.message;
+     });
+
+    this.postCommentSubscription = this.landmarksService.commentReceived().subscribe(comment => {
+      this.errorMessage = '';
+      this.comments.push(comment.data)
+    }, error => {
+      this.errorMessage = error.error.message;
+    });
 
     this.rhodopesPart = this.router.url.includes('west') ? 'west' : 'east';
     this.landscape = this.router.url.slice(this.router.url.lastIndexOf('/') + 1);
 
     this.landmarkSubscription = this.landmarksService.getLandmarkInfo(this.rhodopesPart, this.landscape)
-      .subscribe(landscapeInfo => this.landscapeInfo = landscapeInfo);
+      .subscribe(landscapeInfo => {
+        this.errorMessage = '';
+        this.landscapeInfo = landscapeInfo
+      }, error => {
+        this.errorMessage = error.error.message;
+      });
   }
 
   ngDoCheck() {
@@ -91,7 +108,12 @@ export class LandmarkComponent implements OnInit, OnDestroy, DoCheck {
 
   openComments() {
     this.commentsSubscription = this.landmarksService.getComments(this.rhodopesPart, this.landscape)
-        .subscribe(comments => this.comments = comments);
+        .subscribe(comments => {
+          this.errorMessage = '';
+          this.comments = comments
+        }, error => {
+          this.errorMessage = error.error.message;
+        });
 
     this.commentsOpened = true;
   }
@@ -108,7 +130,7 @@ export class LandmarkComponent implements OnInit, OnDestroy, DoCheck {
   addLandscape(landscape:string, listType: string){
     this.addLandscapeSubscription = this.landmarksService.addLandscape(landscape, listType).subscribe(response => {
       if(response.success){
-        this.errorMessage = '';
+        this.landscapeActionError = '';
 
         if(listType === 'favorite'){
           this.favorite = true;
@@ -122,15 +144,14 @@ export class LandmarkComponent implements OnInit, OnDestroy, DoCheck {
         }
       } 
     }, error => {
-      this.errorMessage = error.error.message;
-      this.router.navigateByUrl('/auth/login');
+      this.landscapeActionError = error.error.message;
     });
   }
 
   removeLandscape(landscape:string, listType: string){
     this.removeLandscapeSubscription = this.landmarksService.removeUserLandmark(landscape, listType).subscribe(response => {
       if(response.success){
-        this.errorMessage = '';
+        this.landscapeActionError = '';
 
         if(listType === 'favorite'){
           this.favorite = false;
@@ -144,8 +165,7 @@ export class LandmarkComponent implements OnInit, OnDestroy, DoCheck {
         }
       } 
     }, error => {
-      this.errorMessage = error.error.message;
-      this.router.navigateByUrl('/auth/login');
+      this.landscapeActionError = error.error.message;
     });
   }
 

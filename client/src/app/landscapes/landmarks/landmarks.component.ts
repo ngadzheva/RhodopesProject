@@ -25,6 +25,7 @@ export class LandmarksComponent implements OnInit, DoCheck, OnDestroy {
   visitedLandmarksSubscription: Subscription;
   wantToVisitLandmarksSubscription: Subscription;
   errorMessage: string;
+  landscapeActionError: string;
 
   constructor(private landmarksService: LandmarksService, private router: Router, private cookieService: CookieService) { 
     this.errorMessage = '';
@@ -67,7 +68,12 @@ export class LandmarksComponent implements OnInit, DoCheck, OnDestroy {
     this.rhodopesPart = this.router.url.split('/')[2];
 
     this.landmarkSubscription = this.landmarksService.getLandmarks(this.rhodopesPart)
-        .subscribe(landmarks => this.landmarks = landmarks);
+        .subscribe(landmarks => {
+          this.errorMessage = '';
+          this.landmarks = landmarks
+        }, error => {
+          this.errorMessage = error.error.message;
+        });
   }
 
   setUserLandmarks() {
@@ -89,7 +95,7 @@ export class LandmarksComponent implements OnInit, DoCheck, OnDestroy {
   addLandscape(landscape: string, listType: string){
     this.addLandscapeSubscription = this.landmarksService.addLandscape(landscape, listType).subscribe(response => {
       if(response.success){
-        this.errorMessage = '';
+        this.landscapeActionError = '';
 
         this.landmarks.forEach((landmark, index) => {
           if(landscape === landmark.name) {
@@ -107,15 +113,14 @@ export class LandmarksComponent implements OnInit, DoCheck, OnDestroy {
         });
       } 
     }, error => {
-      this.errorMessage = error.error.message;
-      this.router.navigateByUrl('/auth/login');
+      this.landscapeActionError = error.error.message;
     });
   }
 
   removeLandscape(landscape: string, listType: string){
     this.removeLandscapeSubscription = this.landmarksService.removeUserLandmark(landscape, listType).subscribe(response => {
       if(response.success){
-        this.errorMessage = '';
+        this.landscapeActionError = '';
 
         this.landmarks.forEach((landmark, index) => {
           if(landscape === landmark.name) {
@@ -133,8 +138,7 @@ export class LandmarksComponent implements OnInit, DoCheck, OnDestroy {
         });
       } 
     }, error => {
-      this.errorMessage = error.error.message;
-      this.router.navigateByUrl('/auth/login');
+      this.landscapeActionError = error.error.message;
     });
   }
 

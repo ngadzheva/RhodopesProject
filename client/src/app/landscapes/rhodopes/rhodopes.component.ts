@@ -9,13 +9,28 @@ import { ImageService } from '../../shared/services/image.service';
 export class RhodopesComponent implements OnInit {
   westImage: string;
   eastImage: string;
+  errorMessage:string;
 
   constructor(private imageService: ImageService) { }
 
   ngOnInit() {
-    this.imageService.getWestRhodopesImage().then(imageURL => this.westImage = imageURL);
+    this.imageService.getWestRhodopesImage()
+        .then(imageURL => {
+          this.errorMessage = '';
+          this.westImage = imageURL
+        })
+        .catch(error => {
+          this.errorMessage = error;
+        });
 
-    this.imageService.getEastRhodopesImage().then(imageURL => this.eastImage = imageURL);
+    this.imageService.getEastRhodopesImage()
+        .then(imageURL => {
+          this.errorMessage = '';
+          this.eastImage = imageURL
+        })
+        .catch(error => {
+          this.errorMessage = error;
+        });
   }
 
 }

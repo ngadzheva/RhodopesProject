@@ -1,4 +1,5 @@
 import { Rhodopes } from '../models/rhodopes';
+import { Folders } from '../enums/folders';
 
 export class RhodopesController {
     private _landscape: Rhodopes;
@@ -40,7 +41,7 @@ export class RhodopesController {
     }
 
     public uploadImage(directory: string, path: string) {
-        const fullDirectoryPath = 'rhodopes/' + this._rhodopesPart + '/' + directory + '/';
+        const fullDirectoryPath = Folders[Folders.rhodopes] + '/' + this._rhodopesPart + '/' + directory + '/';
         this._landscape.uploadImage(directory, fullDirectoryPath, path);
     }
 

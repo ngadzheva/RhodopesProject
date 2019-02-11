@@ -5,7 +5,10 @@
     <input [(ngModel)]="searchText" name="filter"class="form-control" type="text" placeholder="Search" aria-label="Search" mdbInputDirective>
 </form>
 
-<ul>
+<div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
+<div *ngIf="landscapeActionError" class="error">{{landscapeActionError}}</div>
+
+<ul *ngIf="!errorMessage">
     <li *ngFor="let landmark of landmarks | filter: searchText">
         <div *ngIf="landmark.active" class="media border p-3">
             <img src="{{ landmark.image }}" class="mr-3 mt-3 rounded-circle"/>

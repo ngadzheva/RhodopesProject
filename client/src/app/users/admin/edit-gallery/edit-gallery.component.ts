@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GalleryService } from '../../../gallery/shared/services/gallery.service';
-import { Router } from '@angular/router';
 import { IGallery } from '../../../gallery/shared/interfaces/gallery.interface';
 import { Subscription } from 'rxjs';
 
@@ -15,8 +14,9 @@ export class EditGalleryComponent implements OnInit, OnDestroy {
   gallerySubscription: Subscription;
   deleteSubscription: Subscription;
   rhodopesPart: string;
+  errorMessage: string;
 
-  constructor(private galleryService: GalleryService, private router: Router) { 
+  constructor(private galleryService: GalleryService) { 
     this.gallery = new Array();
   }
 
@@ -34,15 +34,22 @@ export class EditGalleryComponent implements OnInit, OnDestroy {
 
   loadGallery() {
     this.gallerySubscription = this.galleryService.getLandscapesAlbums('')
-      .subscribe(gallery => this.gallery = gallery);
+      .subscribe(gallery => {
+        this.errorMessage = '';
+        this.gallery = gallery
+      }, error => {
+        this.errorMessage = error.error.message;
+      });
   }
 
   deleteAlbum(landscape: string, rhodopesPart: string) {
     this.deleteSubscription = this.galleryService.removeAlbum(landscape, rhodopesPart).subscribe(response => {
       if(response.success) {
+        this.errorMessage = '';
         this.gallery = response.data;
       }
+    }, error => {
+      this.errorMessage = error.error.message;
     });
   }
-
 }

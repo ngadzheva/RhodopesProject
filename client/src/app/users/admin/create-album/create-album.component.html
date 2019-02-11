@@ -1,5 +1,7 @@
 <app-admin-sidebar></app-admin-sidebar>
 
+<div *ngIf="errorMessage" id="error">{{errorMessage}}</div>
+
 <div id="container">
   <h1>Създаване на албум</h1>
   <form name="album" #f="ngForm" class="form-horizontal" role="form">

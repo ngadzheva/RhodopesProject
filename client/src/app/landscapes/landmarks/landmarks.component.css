@@ -1,6 +1,7 @@
 .error {
     color: red;
-    font-size: 50px;
+    text-align: center;
+    font-size: 3vw;
 }
 
 h1, h4 {

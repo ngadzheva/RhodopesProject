@@ -1,13 +1,12 @@
 import * as express from 'express';
 
-const IncomingForm = require('formidable').IncomingForm;
-
-const landscapeRouter = express.Router();
-
 import { RhodopesController } from '../controllers/rhodopes';
 import { LandmarkController } from '../controllers/landmark';
-import { admin } from '../middleware/auth';
 import { west as westGallery, east as eastGallery } from './gallery';
+import { admin } from '../middleware/auth';
+
+const IncomingForm = require('formidable').IncomingForm;
+const landscapeRouter = express.Router();
 
 const west = new RhodopesController('west');
 const east = new RhodopesController('east');

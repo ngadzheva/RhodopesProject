@@ -13,6 +13,7 @@ export class GalleryComponent implements OnInit, DoCheck, OnDestroy {
 
   gallery: IGallery[];
   rhodopesPart: string;
+  errorMessage: string;
   gallerySubscription: Subscription;
 
   constructor(private galleryService: GalleryService, private router: Router) { }
@@ -35,6 +36,11 @@ export class GalleryComponent implements OnInit, DoCheck, OnDestroy {
     this.rhodopesPart = this.router.url.split('/')[2];
 
     this.gallerySubscription = this.galleryService.getLandscapesAlbums(this.rhodopesPart)
-      .subscribe(gallery => this.gallery = gallery);
+      .subscribe(gallery => {
+        this.errorMessage = '';
+        this.gallery = gallery
+      }, error => {
+        this.errorMessage = error.error.message
+      });
   }
 }

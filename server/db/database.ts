@@ -1,8 +1,8 @@
-const admin = require('firebase-admin');
-
-const serviceAccount = require('../../rhodope-ee682-firebase-adminsdk-jts1t-652eec230c.json');
-const functions = require('firebase-functions');
 import '@firebase/storage';
+import { config } from '../config/config';
+
+const admin = require('firebase-admin');
+const serviceAccount = require('../../rhodope-ee682-firebase-adminsdk-jts1t-652eec230c.json');
 
 class DataBase {
     private _dbInstance: any;
@@ -11,7 +11,7 @@ class DataBase {
     constructor(){
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
-            storageBucket: 'rhodope-ee682.appspot.com'
+            storageBucket: config.storageBucket
         });
         
         this._dbInstance = admin.firestore();
@@ -49,7 +49,7 @@ class DataBase {
 
     public uploadImage(directory: string, path: string) {
         return this._storage.upload(path, {
-            uploadType: "media",
+            uploadType: 'media',
             metadata: {
                 contentType: 'image/jpg'
             },
@@ -57,7 +57,7 @@ class DataBase {
         }).then((data: any) => {
             let file = data[0];
             console.log(file.name);
-            return Promise.resolve("https://firebasestorage.googleapis.com/v0/b/" + this._storage.name + "/o/" + encodeURIComponent(file.name) + "?alt=media");
+            return Promise.resolve(config.cloudStorage + this._storage.name + '/o/' + encodeURIComponent(file.name) + '?alt=media');
         });
     }
 }

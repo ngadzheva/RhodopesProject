@@ -1,39 +1,26 @@
 import * as bodyParser from 'body-parser';
-import { connectRouter } from './router';
 import { Socket } from 'net';
+
+import { connectRouter } from './router';
 import { user } from './router/login';
 import { landscape } from './router/landscape';
-const cors = require('cors');
-//const cookieParser = require('cookie-parser');
-const session = require('cookie-session');
+import { config } from './config/config';
 
+const cors = require('cors');
 const express = require('express');
 
-const serverPort = 3001;
-const socketPort = 3000;
-
 const app = express();
-var server = require('http').createServer(app);  
+const socket = require('http').createServer(app);  
+const io = require('socket.io')(socket);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: config.client,
   credentials: true
-}));
-//app.use(cookieParser());
-app.use(session({
-  name: 'session',
-  secret: "Your secret key"
-  , httpOnly: true
-  , maxAge: 30 * 60 * 1000
-  , secure: false
-  , overwrite: false
 }));
 
 connectRouter(app); 
-
-const io = require('socket.io')(server);
 
 io.on('connection', (socket: Socket) => {
   socket.on('vote', (vote => {
@@ -52,10 +39,10 @@ io.on('connection', (socket: Socket) => {
   }));
 });
 
-server.listen(socketPort, () => {
-  console.log(`Server is listening on ${socketPort}`);
+socket.listen(config.socket, () => {
+  console.log(`Server is listening on ${config.socket}`);
 });
 
-app.listen(serverPort, () => {
-  console.log(`Server is listening on ${serverPort}`);
+app.listen(config.server, () => {
+  console.log(`Server is listening on ${config.server}`);
 });
